@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Tue Oct 27 18:47:04 CST 2015
+onejar.license.required=false
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=true
+jarname=GlycansNovoFinal2.jar
+manifest.mergeall=true
+manifest.mainclass=tools.CMain
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=
