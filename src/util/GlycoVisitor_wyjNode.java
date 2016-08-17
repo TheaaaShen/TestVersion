@@ -69,7 +69,7 @@ public class GlycoVisitor_wyjNode implements GlycoVisitor
 
     public String getNodeType()
     {
-    	return this.node_type;
+        return this.node_type;
     }
     public void setMonoisotopic(boolean a_bMonoisotpic)
     {
@@ -110,9 +110,9 @@ public class GlycoVisitor_wyjNode implements GlycoVisitor
          */
         if(a_objMonosaccharide.getModification().size()>0)
         {
-        	if(a_objMonosaccharide.getModification().get(0).getModificationType().equals(ModificationType.DEOXY))
+            if(a_objMonosaccharide.getModification().get(0).getModificationType().equals(ModificationType.DEOXY))
             {
-            	t_dMass=t_dMass-14-16;
+                t_dMass=t_dMass-14-16;
             }
         }
         
@@ -408,7 +408,7 @@ public class GlycoVisitor_wyjNode implements GlycoVisitor
                     }
                     else
                     {
-//                    	System.out.println(this.m_dMass);
+//                        System.out.println(this.m_dMass);
                         this.m_dMass += this.m_objMasses.getLinkageTypeMass(t_objLinkage.getChildLinkageType(),this.m_bMonoisotopic);
 //                        System.out.println(this.m_dMass);
                     }

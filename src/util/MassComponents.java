@@ -57,13 +57,13 @@ public class MassComponents
         double MethMass=2*1.0078+12;//.0117;
         if(a_objSuper.getCAtomCount()==6)
         {
-        	re_value=re_value+(MethMass*3);
+            re_value=re_value+(MethMass*3);
         }else if(a_objSuper.getCAtomCount()==5)
         {
-        	re_value=re_value+(MethMass*2);
+            re_value=re_value+(MethMass*2);
         }else if(a_objSuper.getCAtomCount()==9)
         {
-        	re_value=re_value+(MethMass*5);
+            re_value=re_value+(MethMass*5);
         }
 //        return (t_dResult * a_objSuper.getCAtomCount());
         return re_value;

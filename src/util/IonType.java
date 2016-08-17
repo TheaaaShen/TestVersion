@@ -1,6 +1,6 @@
 package util;
 
 public enum IonType {
-	BIon,YIon,CIon,ZIon,AIon,XIon,PIon
-	
+    BIon,YIon,CIon,ZIon,AIon,XIon,PIon
+    
 };
