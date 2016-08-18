@@ -26,21 +26,41 @@ public class BatchWork {
 
     /** 
      * This boolean variable suggests whether candidate structures have been
-     * selected by searching the structure library
+     * selected by searching the structure library.
      */
     boolean areCandidatesLoaded = false;
     
+    /** 
+     * This table stores the probabilities of all candidate structures after a
+     * specific spectrum is added(all probabilities are updated).
+     * The indexing key is the name of this spectrum.
+     */
     Hashtable<String, double[]> probArrayHash = 
             new Hashtable<String, double[]>();
+    /** 
+     * This table stores the candidate structures (whose score is not 0 ?? ) after
+     * a specific spectrum is added(all scores are updated).
+     * The indexing key is the name of this spectrum.
+     */
     Hashtable<String, ArrayList<FragNode>> candiStrucHash = 
             new Hashtable<String, ArrayList<FragNode>>();
+    
     Hashtable<String, SPComponent> spComponentHash = 
             new Hashtable<String, SPComponent>();
+    
+    /** 
+     * This table stores the entropy of all peaks that appears in current
+     * spectrum and all previous spectra.
+     * The indexing key is the name of this spectrum.
+     */
     Hashtable<String, ArrayList<PeakEntropyInfo>> entropyListHash = 
             new Hashtable<String, ArrayList<PeakEntropyInfo>>();
     Hashtable<String, String[]> resultInfoArrayHash = 
             new Hashtable<String, String[]>();
     ArrayList<FragNode> candiFragNodeList;
+    
+    
+    /** This array contains the entropies of all peaks in all spectra. */
     ArrayList<PeakEntropyInfo> candiPeakEntropyList = 
             new ArrayList<PeakEntropyInfo>();
     
@@ -79,7 +99,7 @@ public class BatchWork {
         // For MS2, it is currently uniform distribution
         // For MS3+, It is the posterior probabilities using previous spectra
         double[] preProbArray;
-        for (SPComponent spectrum : spList) {
+        for(SPComponent spectrum : spList) {
             ArrayList<FragNode> candiStrucList = new ArrayList<FragNode>();
             if (this.areCandidatesLoaded) {
                 // If the candidate structures are already gotten 
@@ -121,22 +141,34 @@ public class BatchWork {
                     + "\t previous spectrum: " + spectrum.getSpPreFileID());
             }
             
+            // Calculate the distinguishing power(Entropy) of every peak in 
+            // current spectrum. At the same time, update the score of every
+            // candidate.(not sure)
             ScoreEntropyResult tmpResult = fragMz.executeCount(candiStrucList,
                     spectrum, spectrum.getPreMzList(), cutTime,
                     spectrum.getSpLevel(), WIN, preProbArray, filterRatio);
     
             if (tmpResult == null) {
-                continue;
+                // debug code
+                System.out.print("tempResult is null.");
+                continue; // ignore this spectrum
             }
             
-    
+            //--------------dealing with scores of candidate structures--------
+            // get the scores of every candidate structures
             ArrayList<CompareInfo> scoreInfoList = tmpResult.getScoreInfoList();
+            
+            // stores the ScoreInfoStr of every structure 
+            // in Class CompareInfo: String infoStr; what does this mean ??
             String[] infoArray = new String[candiNum];
+            // stores the probability(score) of every structure
             double[] probArray = new double[candiNum];
-    
+            
+            // copy infoStr and score from result into these two arrays above 
             for (int i = 0; i < scoreInfoList.size(); i++) {
-                CompareInfo tmp = scoreInfoList.get(i);
-                if (tmp != null) {
+                // i-th structure and its score
+                CompareInfo scoreInfo = scoreInfoList.get(i);
+                if (scoreInfo != null) {
                     infoArray[i] = scoreInfoList.get(i).getScoreInfoStr();
                     probArray[i] = scoreInfoList.get(i).getScore();
                 } else {
@@ -148,22 +180,34 @@ public class BatchWork {
             resultInfoArrayHash.put(spectrum.getSpFileID(), infoArray);
             probArrayHash.put(spectrum.getSpFileID(), probArray);
             candiStrucHash.put(spectrum.getSpFileID(), candiStrucList);
+            //--------end of dealing with scores of candidate structures-------
             
+            //----dealing with distinguishing powers(entropies) of all peaks---
+            // ??
             //count next stage peak entropy annotation entropyListHash for test
+            // Get the peaks and their entropies of this spectrum
             ArrayList<PeakEntropyInfo> entropyList = 
                     tmpResult.getPeakEntropyList();
             if(entropyList!=null){
+                // Add peaks in current spectrum to the list containing all peaks 
                 this.candiPeakEntropyList.addAll(entropyList);
             }
             
+            // Update the distinguishing power of all peaks(including peaks
+            // in previous spectra). Previous spectra are included since the
+            // scores(probabilities) of candidate structures are changed.
             this.updateEntropy(probArray, candiPeakEntropyList);
             
             entropyListHash.put(spectrum.getSpFileID(),
                     this.candiPeakEntropyList);
-            this.writeOut(spectrum, outFolder);
+            //-----------distinguishing powers part ended------------
+            
+            // stores this spectrum
             spComponentHash.put(spectrum.getSpFileID(), spectrum);
             
-        }
+            this.writeOut(spectrum, outFolder);
+            
+        } // End of for(SPComponent spectrum : spList)
     }
 
     /**
@@ -249,12 +293,21 @@ public class BatchWork {
         return noError;
     }
 
+    public void updateEntropy(double[] preProbArray,
+            ArrayList<PeakEntropyInfo> candiPeakEntropyList){
+        for(int i=0;i<candiPeakEntropyList.size();i++) {
+            if(candiPeakEntropyList.get(i)!=null){
+                candiPeakEntropyList.get(i).updateEntroy(preProbArray);
+            }
+        }
+    }
+    
     public void writeOut(SPComponent iterSP,String outFolder) {
         try {
             String spFileID = iterSP.getSpFileID();
             BufferedWriter outfile = new BufferedWriter(
                     new FileWriter(outFolder+spFileID+".txt"));
-
+    
             ArrayList<PeakEntropyInfo> peakEntropyList = 
                         this.entropyListHash.get(spFileID);
                 
@@ -264,19 +317,17 @@ public class BatchWork {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    
     }
-    
-    
     public void writeOut2(String outFile) {
-
+    
         try {
             BufferedWriter outfile = 
                     new BufferedWriter(new FileWriter(outFile));
-
+    
             for (SPComponent iterSP : spList) {
                 String spFileID = iterSP.getSpFileID();
-
+    
                 ArrayList<PeakEntropyInfo> peakEntropyList = 
                         this.entropyListHash.get(iterSP.getSpFileID());
                 if (this.resultInfoArrayHash.containsKey(spFileID)) {
@@ -288,9 +339,8 @@ public class BatchWork {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    
     }
-
     public void writeBuffer2(BufferedWriter outfile, SPComponent spComponent,
             ArrayList<PeakEntropyInfo> peakEntropyList) {
         String[] infoArray = this.resultInfoArrayHash.get(spComponent
@@ -304,7 +354,7 @@ public class BatchWork {
             for (int i = 0; i < infoArray.length; i++) {
                 if (infoArray[i] == null) {
                     outfile.write("null");
-
+    
                 }
                 /*
                  * do not print the score =0 result info
@@ -314,10 +364,10 @@ public class BatchWork {
                 } else {
                     continue;
                 }
-
+    
                 outfile.newLine();
             }
-
+    
             /*
              * max intens peak outprint
              */
@@ -325,7 +375,7 @@ public class BatchWork {
                     .getPeakArray());
             outfile.write("MaxIntensPeak:" + maxIntensPeak.getMz());
             outfile.newLine();
-
+    
             if (peakEntropyList != null)
                 for (int j = 0; j < peakEntropyList.size(); j++) {
                     PeakEntropyInfo tmpEntropy = peakEntropyList.get(j);
@@ -336,16 +386,17 @@ public class BatchWork {
                     
                     outfile.newLine();
                 }
-
+    
             outfile.newLine();
             outfile.flush();
-
+    
         } catch (Exception e) {
             
             e.printStackTrace();
         }
     }
-
+    
+    // It seems that this function is never used.
     public ArrayList<Integer> prescoreFilterIndex(double[] prescoreArray,
             int Top) {
         ArrayList<Integer> indexList = new ArrayList<Integer>();
@@ -374,6 +425,7 @@ public class BatchWork {
         return indexList;
     }
 
+    // It seems that this function is never used
     public double[] prescoreFilter(double[] prescoreArray,
             ArrayList<Integer> indexList) {
         double[] reArray = new double[indexList.size()];
@@ -384,6 +436,7 @@ public class BatchWork {
         return reArray;
     }
 
+    // It seems that this function is never used
     public ArrayList<FragNode> candiStrucFilter(ArrayList<FragNode> candiStruc,
             ArrayList<Integer> indexList) {
         ArrayList<FragNode> reList = new ArrayList<FragNode>();
@@ -391,17 +444,6 @@ public class BatchWork {
             reList.add(candiStruc.get(iterIndex));
         }
         return reList;
-    }
-
-    public void updateEntropy(double[] preProbArray,
-            ArrayList<PeakEntropyInfo> candiPeakEntropyList){
-        for(int i=0;i<candiPeakEntropyList.size();i++)
-        {
-            if(candiPeakEntropyList.get(i)!=null)
-            {
-                candiPeakEntropyList.get(i).updateEntroy(preProbArray);
-            }
-        }
     }
     
 }

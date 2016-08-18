@@ -1,70 +1,166 @@
 package tools;
-import java.util.*;
-import util.*;
+
+import java.util.ArrayList;
+
+import util.PeakInfo;
+
+// TODO: Auto-generated Javadoc. This class should be renamed.
+/**
+ * The Class CompareInfo.
+ * It seems that this class represents the score of one candidate structure.
+ * 
+ * 
+ */
 public class CompareInfo {
+    
+    /** The name of this candidate structure. */
     String candiStrucStr;
+    
+    /** The ID of this candidate structure. */
     String candiStrucID;
+    
+    /** The score of this candidate structure. */
     double score;
+    
+    /** The number of matched peaks. */
     int matchedNum;
+    
+    /** The union matched number??. */
     int unionMatchedNum;
+    
+    /** The number of miss matched peaks. */
     int missMatchedNum;
+    
+    /** The info str. ?? */
     String infoStr;
+    
+    /** The list contianing all matched peaks. */
     ArrayList<PeakInfo> matchPeakList;
-    public void setCandiID(String candiID)
-    {
-        this.candiStrucID=candiID;
+
+    /**
+     * Sets the ID of this candidate structure.
+     *
+     * @param candiID the new ID of this structure
+     */
+    public void setCandiID(String candiID) {
+        this.candiStrucID = candiID;
     }
-    public String getCandiID()
-    {
+
+    /**
+     * Gets the ID of this candidate structure.
+     *
+     * @return the candi ID
+     */
+    public String getCandiID() {
         return this.candiStrucID;
     }
-    public void setMatchPeakList(ArrayList<PeakInfo> matchPeakList)
-    {
-        this.matchPeakList=matchPeakList;
+
+    /**
+     * Sets the match peak list.
+     *
+     * @param matchPeakList the new match peak list
+     */
+    public void setMatchPeakList(ArrayList<PeakInfo> matchPeakList) {
+        this.matchPeakList = matchPeakList;
     }
-    public ArrayList<PeakInfo> getMatchPeakList()
-    {
+
+    /**
+     * Gets the match peak list.
+     *
+     * @return the match peak list
+     */
+    public ArrayList<PeakInfo> getMatchPeakList() {
         return this.matchPeakList;
     }
-    public void setScore(double score)
-    {
-        this.score=score;
+
+    /**
+     * Sets the score.
+     *
+     * @param score the new score
+     */
+    public void setScore(double score) {
+        this.score = score;
     }
-    public double getScore()
-    {
+
+    /**
+     * Gets the score.
+     *
+     * @return the score
+     */
+    public double getScore() {
         return this.score;
     }
-    public void setMatchedNum(int matchedNum)
-    {
-        this.matchedNum=matchedNum;
-        
+
+    /**
+     * Sets the matched num.
+     *
+     * @param matchedNum the new matched num
+     */
+    public void setMatchedNum(int matchedNum) {
+        this.matchedNum = matchedNum;
+
     }
-    public void setUnionMatchedNum(int unionNum)
-    {
-        this.unionMatchedNum=unionNum;
-    }
-    public int getMatchedNum()
-    {
+
+    /**
+     * Gets the matched num.
+     *
+     * @return the matched num
+     */
+    public int getMatchedNum() {
         return this.matchedNum;
     }
-    public int getUnionMatchedNum()
-    {
+
+    /**
+     * Sets the union matched num.
+     *
+     * @param unionNum the new union matched num
+     */
+    public void setUnionMatchedNum(int unionNum) {
+        this.unionMatchedNum = unionNum;
+    }
+
+    /**
+     * Gets the union matched num.
+     *
+     * @return the union matched num
+     */
+    public int getUnionMatchedNum() {
         return this.unionMatchedNum;
     }
-    public void setMissMatchedNum(int missMatchedNum)
-    {
-        this.missMatchedNum=missMatchedNum;
+
+    /**
+     * Sets the miss matched num.
+     *
+     * @param missMatchedNum the new miss matched num
+     */
+    public void setMissMatchedNum(int missMatchedNum) {
+        this.missMatchedNum = missMatchedNum;
     }
-    public int getMissMatchedNum()
-    {
+
+    /**
+     * Gets the miss matched num.
+     *
+     * @return the miss matched num
+     */
+    public int getMissMatchedNum() {
         return this.missMatchedNum;
     }
-    public void setScoreInfoStr(String infoStr)
-    {
-        this.infoStr=infoStr;
+
+    /**
+     * Sets the score info str.
+     *
+     * @param infoStr the new score info str
+     */
+    public void setScoreInfoStr(String infoStr) {
+        this.infoStr = infoStr;
     }
-    public String getScoreInfoStr()
-    {
+
+    /**
+     * Gets the score info str.
+     *
+     * @return the score info str
+     */
+    public String getScoreInfoStr() {
         return this.infoStr;
     }
 }

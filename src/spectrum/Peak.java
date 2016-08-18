@@ -34,18 +34,18 @@ public class Peak {
     /** The relative intensity. */
     double relativeIntens=-10;
     
-    /** The mz offset. */
+    /** The mz offset. ?? */
     double mzOffset=10;
     
     /**
-     * Instantiates a new data point.
+     * Instantiates a new peak.
      */
     public Peak(){
         
     }
     
     /**
-     * Instantiates a new data point.
+     * Instantiates a new peak.
      *
      * @param mz the mz
      * @param intens the intensity

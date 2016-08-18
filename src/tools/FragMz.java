@@ -192,32 +192,34 @@ public class FragMz {
     /**
      * Execute count.
      *
-     * @param candiStrucList the candi struc list
-     * @param iterSP the iter SP
-     * @param multiLevelMzList the multi level mz list
-     * @param cutTime the cut time
-     * @param spLevel the sp level
-     * @param WIN the win
-     * @param preProbArray the pre prob array
+     * @param candiStrucList the candidate structure list
+     * @param spectrum the spectrum dealing with
+     * @param multiLevelMzList the multi level M/Z list
+     * @param cutTime the cut time ??
+     * @param spLevel the level of current spectrum 
+     * @param WIN the window ??
+     * @param preProbArray the prior probabilities array
      * @param filterRatio the filter ratio
      * @return the score entropy result
      */
     public ScoreEntropyResult executeCount(ArrayList<FragNode> candiStrucList,
-            SPComponent iterSP, ArrayList<Double> multiLevelMzList,
+            SPComponent spectrum, ArrayList<Double> multiLevelMzList,
             int cutTime,int spLevel,double WIN,
-            double[] preProbArray,double filterRatio) 
-        {
-            Peak[] expSPArray=iterSP.getPeakArray();
-            ArrayList<ArrayList<FragNode>> candiTheorySPList=countTheorySp(candiStrucList, multiLevelMzList, spLevel, cutTime);
-            if(candiTheorySPList==null)
-            {
+            double[] preProbArray,double filterRatio){
+            // Get all peaks 这个是指实验谱
+            Peak[] expSPArray = spectrum.getPeakArray();
+            ArrayList<ArrayList<FragNode>> candiTheorySPList = countTheorySp(
+                    candiStrucList, multiLevelMzList, spLevel, cutTime);
+            if(candiTheorySPList==null) {
                 return null;
             }
             expSPArray=spectrumFilter(expSPArray,filterRatio);
             
-            ArrayList<CompareInfo> scoreInfoList=ScoreModel.scoreA(candiTheorySPList, expSPArray, preProbArray, WIN);
-            int peakLevel=iterSP.getSpLevel();
-            ArrayList<PeakEntropyInfo> peakEntropyList=coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
+            ArrayList<CompareInfo> scoreInfoList=ScoreModel.
+                    scoreA(candiTheorySPList, expSPArray, preProbArray, WIN);
+            int peakLevel=spectrum.getSpLevel();
+            ArrayList<PeakEntropyInfo> peakEntropyList = 
+                    coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
     //        ArrayList<PeakEntropyInfo> peakEntropyList=null;
             ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
             return tmpResult;
