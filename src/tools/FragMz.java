@@ -20,6 +20,7 @@ public class FragMz {
     
     /**
      * Search level node.
+     * seems never used.
      *
      * @param fragNode the frag node
      * @param spLevel the sp level
@@ -145,51 +146,6 @@ public class FragMz {
     }
     
     /**
-     * Search sp level node list with mass.
-     *
-     * @param candiStrucList the candi struc list
-     * @param multiLevelMzList the multi level mz list
-     * @param spLevel the sp level
-     * @param cutTime the cut time
-     * @return the array list
-     */
-    //寻找第spLevel级谱对应的子树根节点
-    private ArrayList<ArrayList<FragNode>> searchSpLevelNodeListWithMass(ArrayList<FragNode> candiStrucList,ArrayList<Double> multiLevelMzList,int spLevel,int cutTime)
-    {
-        ArrayList<ArrayList<FragNode>> candiNodeList=new ArrayList<ArrayList<FragNode>>();
-        boolean detected=false;
-//        for(FragNode iterStruc:candiStrucList)
-        for(int i=1;i<candiStrucList.size();i++)
-        {
-            ArrayList<FragNode> iterStrucList=new ArrayList<FragNode>();
-            if(i==1)
-            {
-                iterStrucList.add(candiStrucList.get(0));
-                iterStrucList.add(candiStrucList.get(i));
-                
-            }else
-            {
-                iterStrucList.add(candiStrucList.get(i));
-            }
-            ArrayList<FragNode> candiNode=this.searchLevelNode2(iterStrucList, spLevel,multiLevelMzList,cutTime);
-            candiNodeList.add(candiNode);
-            if(candiNode!=null)
-            {
-                detected=true;
-            }
-            
-        }
-        if(detected)
-        {
-            return candiNodeList;
-        }else
-        {
-            return null;
-        }
-        
-    }
-
-    /**
      * Execute count.
      *
      * @param candiStrucList the candidate structure list
@@ -203,29 +159,55 @@ public class FragMz {
      * @return the score entropy result
      */
     public ScoreEntropyResult executeCount(ArrayList<FragNode> candiStrucList,
-            SPComponent spectrum, ArrayList<Double> multiLevelMzList,
+            SPComponent spectrum, ArrayList<Double> multiLevelMzList,// Mz list!
             int cutTime,int spLevel,double WIN,
             double[] preProbArray,double filterRatio){
             // Get all peaks 这个是指实验谱
             Peak[] expSPArray = spectrum.getPeakArray();
+            
+            // Enumerate all theoretic spectra: S_{i,j}
             ArrayList<ArrayList<FragNode>> candiTheorySPList = countTheorySp(
                     candiStrucList, multiLevelMzList, spLevel, cutTime);
             if(candiTheorySPList==null) {
                 return null;
             }
-            expSPArray=spectrumFilter(expSPArray,filterRatio);
             
-            ArrayList<CompareInfo> scoreInfoList=ScoreModel.
+            // remove small peaks in the experimental spectrum ??
+            expSPArray = spectrumFilter(expSPArray,filterRatio);
+            
+            // Calculate the scores of candidate structures
+            ArrayList<CompareInfo> scoreInfoList = ScoreModel.
                     scoreA(candiTheorySPList, expSPArray, preProbArray, WIN);
-            int peakLevel=spectrum.getSpLevel();
+            
+            // Calculate the distinguishing power of all peaks 
+            int peakLevel = spectrum.getSpLevel();
             ArrayList<PeakEntropyInfo> peakEntropyList = 
                     coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
-    //        ArrayList<PeakEntropyInfo> peakEntropyList=null;
+//            ArrayList<PeakEntropyInfo> peakEntropyList=null;
+            
             ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
             return tmpResult;
     
         }
     
+    /**
+     * Cout next stage peak.
+     *
+     * @param expIonArray the exp ion array
+     * @param scoreList the score list
+     * @param cutTime the cut time
+     * @param peakLevel the peak level
+     * @return the array list
+     */
+    public ArrayList<PeakEntropyInfo> coutNextStagePeak(Peak[] expIonArray,
+            ArrayList<CompareInfo> scoreList,int cutTime,int peakLevel){
+        FetchFeature6 tt=new FetchFeature6();
+        ArrayList<PeakEntropyInfo> peakEntropyResult
+            =tt.FetchMatchMzPeak2(scoreList, cutTime,peakLevel);
+        
+        return peakEntropyResult;
+    }
+
     /**
      * Count theory sp.
      *
@@ -243,7 +225,93 @@ public class FragMz {
     }
     
     /**
-     * Load sp.
+     * Cout theory sp N core 2 cut.
+     *
+     * @param candiStrucList the candi struc list
+     * @param multiLevelMzList the multi level mz list
+     * @param spLevel the sp level
+     * @param cutTime the cut time
+     * @return the array list
+     */
+    public ArrayList<ArrayList<FragNode>> coutTheorySpNCore2Cut(
+            ArrayList<FragNode> candiStrucList, 
+            ArrayList<Double> multiLevelMzList,
+            int spLevel,int cutTime) {
+        ArrayList<ArrayList<FragNode>> reList = 
+                new ArrayList<ArrayList<FragNode>>();
+        for(int i=0;i<candiStrucList.size();i++) {
+            FragNode tmpNode=candiStrucList.get(i);
+            int cut=0;
+            if(tmpNode!=null){
+                if(tmpNode.isNGlycanCore()) {
+                    cut=2;
+                } else {
+                    cut=1;
+                }
+                
+            }
+            ArrayList<FragNode> singleEleList=new ArrayList<FragNode>();
+            singleEleList.add(tmpNode);
+            reList.addAll(this.coutTheorySp(
+                            this.searchSpLevelNodeListWithMass(
+                                singleEleList, 
+                                multiLevelMzList, 
+                                spLevel,cutTime),
+                            cut)
+                         );
+            
+        }
+        
+        return reList;
+    }
+
+    /**
+         * Search sp level node list with mass.
+         *
+         * @param candiStrucList the candi struc list
+         * @param multiLevelMzList the multi level mz list
+         * @param spLevel the sp level
+         * @param cutTime the cut time
+         * @return the array list
+         */
+        //寻找第spLevel级谱对应的子树根节点
+        private ArrayList<ArrayList<FragNode>> searchSpLevelNodeListWithMass(ArrayList<FragNode> candiStrucList,ArrayList<Double> multiLevelMzList,int spLevel,int cutTime)
+        {
+            ArrayList<ArrayList<FragNode>> candiNodeList=new ArrayList<ArrayList<FragNode>>();
+            boolean detected=false;
+    //        for(FragNode iterStruc:candiStrucList)
+            for(int i=1;i<candiStrucList.size();i++)
+            {
+                ArrayList<FragNode> iterStrucList=new ArrayList<FragNode>();
+                if(i==1)
+                {
+                    iterStrucList.add(candiStrucList.get(0));
+                    iterStrucList.add(candiStrucList.get(i));
+                    
+                }else
+                {
+                    iterStrucList.add(candiStrucList.get(i));
+                }
+                ArrayList<FragNode> candiNode=this.searchLevelNode2(iterStrucList, spLevel,multiLevelMzList,cutTime);
+                candiNodeList.add(candiNode);
+                if(candiNode!=null)
+                {
+                    detected=true;
+                }
+                
+            }
+            if(detected)
+            {
+                return candiNodeList;
+            }else
+            {
+                return null;
+            }
+            
+        }
+
+    /**
+     * Load spectrum
      *
      * @param spFile the sp file
      * @return the peak[]
@@ -261,7 +329,7 @@ public class FragMz {
     }
     
     /**
-     * Spectrum filter.
+     * filter some small peaks a spectrum.
      *
      * @param expIonArray the exp ion array
      * @param filterRatio the filter ratio
@@ -271,7 +339,7 @@ public class FragMz {
         expIonArray=DataFilter.getNormalizedPeakArray(expIonArray, 1000);
         /*
          * intens filt
-         * @filtIntensRatio:0.95 
+         * @filtIntensRatio:0.95 ?? 现在设的是这个吗？
          */
         
         double filtIntens=filterRatio*1000;
@@ -296,24 +364,6 @@ public class FragMz {
     }
     
     /**
-     * Cout next stage peak.
-     *
-     * @param expIonArray the exp ion array
-     * @param scoreList the score list
-     * @param cutTime the cut time
-     * @param peakLevel the peak level
-     * @return the array list
-     */
-    public ArrayList<PeakEntropyInfo> coutNextStagePeak(Peak[] expIonArray,
-            ArrayList<CompareInfo> scoreList,int cutTime,int peakLevel){
-        FetchFeature6 tt=new FetchFeature6();
-        ArrayList<PeakEntropyInfo> peakEntropyResult
-            =tt.FetchMatchMzPeak2(scoreList, cutTime,peakLevel);
-        
-        return peakEntropyResult;
-    }
-    
-    /**
      * Gets the inits the equal prob.
      *
      * @param candiNum the candi num
@@ -326,38 +376,6 @@ public class FragMz {
             reArray[i]=prob;
         }
         return reArray;
-    }
-
-    
-    /**
-     * Cout theory sp N core 2 cut.
-     *
-     * @param candiStrucList the candi struc list
-     * @param multiLevelMzList the multi level mz list
-     * @param spLevel the sp level
-     * @param cutTime the cut time
-     * @return the array list
-     */
-    public ArrayList<ArrayList<FragNode>> coutTheorySpNCore2Cut(ArrayList<FragNode> candiStrucList,
-            ArrayList<Double> multiLevelMzList,int spLevel,int cutTime) {
-        ArrayList<ArrayList<FragNode>> reList=new ArrayList<ArrayList<FragNode>>();
-        for(int i=0;i<candiStrucList.size();i++) {
-            FragNode tmpNode=candiStrucList.get(i);
-            int cut=0;
-            if(tmpNode!=null){
-                if(tmpNode.isNGlycanCore()) {
-                    cut=2;
-                } else {
-                    cut=1;
-                }
-                
-            }
-            ArrayList<FragNode> singleEleList=new ArrayList<FragNode>();
-            singleEleList.add(tmpNode);
-            reList.addAll(this.coutTheorySp(this.searchSpLevelNodeListWithMass(singleEleList, multiLevelMzList, spLevel,cutTime),cut));
-        }
-        
-        return reList;
     }
     
 }

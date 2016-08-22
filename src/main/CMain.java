@@ -10,18 +10,37 @@ public class CMain {
     static final String HOME_DIR = "..";
     /** library of structure of carb lib dir*/
     static final String CARB_LIB_DIR = HOME_DIR + "/carbbank"; 
-    // spectra dir
+    // The folder containing all spectra
     static final String SPECTRA_DIR = HOME_DIR + "/spectra";
-    // structure file from lib
-    static final String strucFile = CARB_LIB_DIR + "/CarbbankLibAll.txt";
+    
+    /** The Constant SPECTRA_FILE_SUFFIX: the suffix of one spectrum. */
+    static final String SPECTRA_FILE_SUFFIX = ".mzXML";
+    
+    /** The name of the library file storing glycal structures */
+    static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + "/CarbbankLibAll.txt";
     
     // Output folder
-    static final String outFolder = HOME_DIR + "/Result";
+    static final String outFolder = HOME_DIR + "/Result/";
     
     // Spectra that should be loaded
     static final String[] SPECTRA_FILES_LOADED = {
             "/1579.mzXML", "/1579_1084.mzXML"};
-    
+
+//    File[] files = getFilesByPathAndSuffix(DIR, SUFIX);
+//    
+//    for (File file : files) {
+//        PDBFileIO pdb = new PDBFileIO();
+//        ArrayList<Atom> allAtoms = pdb.readFile(file);
+//        Glycon gl = new Glycon(allAtoms);
+//        gl.getMassCenter();
+//        gl.getDragPoint();
+//        
+//        //gl.removeResidue(6);
+//        gl.rotate();
+//        double ans = gl.get2DArea(gl.convexHell2D());
+//        System.out.println(file.getName()+"\t\t"+ans);
+//        
+//    }
     
 //    /**
 //     * publication version
@@ -59,18 +78,9 @@ public class CMain {
         int cutTime=3;
         double WIN=0.6;
         double filterRatio=0.01;
-//        String base="E:/Glycan/Glycan3/";
-//        String base2="E:/Glycan/Glycan5/2015-08-14/spectra/20151023/";
-//        String strucLib="E:/Glycan/Glycan5/2015-06-11/lib/CandiStructureLib.txt";
-//        String outFolder="E:/Glycan/Glycan5/2015-06-11/";
-        
-//        String base2="E:/Glycan/Glycan5/2015-06-11/spectra/mzxml6/1783/";
-        
-        //String ms2=base2+"/1579.mzXML";
-        //String ms3=base2+"/1579_1084.mzXML";
         
         // load structure library (static)
-        BatchWork.loadStrucLib(strucFile);
+        BatchWork.loadStrucLib(STRUCTURE_LIBRARY_FILE);
         BatchWork batchwork=new BatchWork();
         
         // load spectra files (input files)
