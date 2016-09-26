@@ -1,0 +1,752 @@
+start
+798
+1579.0
+
+
+ a-D-Manp-(1-6)+
+               |
+          a-D-Manp-(1-6)+
+               |        |
+ a-D-Manp-(1-3)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                        |
+          a-D-Manp-(1-3)+
+
+end
+start
+5157
+1579.0
+
+
+                                                Sulfate-(O-6)+
+                                                             |
+ Sulfate-(O-6)-a-D-Glcp2Me3Me4Me-(1-4)-b-D-GlcpA2Me3Me-(1-4)+|                  Sulfate-(O-6)+
+                                                            ||                               |
+                                                        a-D-Glcp-(1-4)-a-L-IdopA2Me3Me-(1-4)+|
+                                                            ||                              ||
+                                               Sulfate-(O-3)+|                          a-D-Glcp-(1-1)-methyl
+                                                             |                              ||
+                                                Sulfate-(O-2)+                 Sulfate-(O-3)+|
+                                                                                             |
+                                                                                Sulfate-(O-2)+
+
+end
+start
+425
+1579.0
+
+
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                |
+                                           a-D-Manp
+                                                |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+2402
+1579.0
+
+
+ a-D-Glcp-(1-3)-a-D-Manp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-3)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+
+end
+start
+2410
+1579.0
+
+
+ a-D-Manp-(1-6)-a-D-Manp-(1-6)+
+                              |
+                         b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                              |
+ a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+2413
+1579.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-6)-a-D-Manp-(1-6)+
+                                             |
+                                        b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                             |
+                               a-D-Manp-(1-3)+
+
+end
+start
+2414
+1579.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-6)+
+                              |
+                         a-D-Manp-(1-6)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                              |
+                a-D-Manp-(1-3)+
+
+end
+
+start
+7296
+1579.0
+
+
+          a-D-Manp-(1-6)+
+                        |
+                   a-D-Manp-(1-6)+
+                        |        |
+          a-D-Manp-(1-3)+   b-D-Manp-(1-4)-D-GlcNAc
+                                 |
+ b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+16944
+1579.0
+
+
+                                           a-D-Galp-(1-6)+
+                                                         |
+ b-D-Galp-(1-3)-b-D-GalpNAc-(1-4)+                  a-D-Glcp
+                                 |                       |
+                            a-D-Glcp-(1-2)-a-D-Glcp-(1-3)+
+                                 |
+                a-D-GlcpNAc-(1-2)+
+
+end
+start
+28668
+1579.0
+
+
+ a-D-Galp-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-6)+
+                                                |
+                                           b-D-Galp-(1-4)-D-Glc
+                                                |
+                b-D-Galp-(1-4)-b-D-GlcpNAc-(1-3)+
+
+end
+
+start
+32967
+1579.0
+
+
+ a-D-Manp-(1-6)+
+               |
+          a-D-Manp-(1-6)+
+               |        |
+ a-D-Manp-(1-3)+        |
+                        |
+ b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-D-GlcNAc
+                        |
+          a-D-Manp-(1-3)+
+
+end
+start
+35381
+1579.0
+
+
+                   a-D-Manp-(1-3)-a-D-Manp-(1-6)+
+                                                |
+                                           b-D-Manp-(1-4)-D-GlcNAc
+                                                |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+797
+1783.0
+
+
+       a-D-Manp-(1-6)+
+                     |
+                a-D-Manp-(1-6)+
+                     |        |
+       a-D-Manp-(1-3)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                              |
+ a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+2221
+1783.0
+
+
+                a-D-Manp-(1-6)+
+                              |
+                         a-D-Manp-(1-6)+
+                              |        |
+ a-D-Manp-(1-2)-a-D-Manp-(1-3)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                       |
+                         a-D-Manp-(1-3)+
+
+end
+start
+2412
+1783.0
+
+
+                                              a-D-Manp-(1-6)+
+                                                            |
+                                                       b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                            |
+ a-D-Glcp-(1-3)-a-D-Manp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+2421
+1783.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-6)-a-D-Manp-(1-6)+
+                                             |
+                                        b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                             |
+                a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+2426
+1783.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-6)+
+                              |
+                         a-D-Manp-(1-6)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                              |
+ a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+10854
+1783.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-2)-b-D-Manp-(1-3)-a-D-GalpNAc-(1-2)-a-D-Manp-(1-4)-a-D-Manp-(1-2)-b-D-Manp-(1-3)-a-D-GalpNAc
+
+end
+start
+10855
+1783.0
+
+
+ b-D-Galp-(1-3)-b-D-GlcpNAc-(1-3)-a-D-Galp-(1-6)-b-D-Glcp-(1-3)-b-D-Galp-(1-3)-a-D-Galp-(1-6)-b-D-Glcp-(1-3)-b-D-GlcpNAc
+
+end
+start
+11509
+1783.0
+
+
+       a-D-Manp-(1-6)+
+                     |
+ a-D-Manp-(1-3)-a-D-Manp-(1-6)+
+                     |        |
+       b-D-Galf-(1-2)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                              |
+                a-D-Manp-(1-3)+
+
+end
+
+start
+25597
+1783.0
+
+
+                         a-D-Manp-(1-6)+
+                                       |
+                                  a-D-Manp-(1-6)+
+                                       |        |
+                         a-D-Manp-(1-3)+   b-D-Manp-(1-4)-D-GlcNAc
+                                                |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+28667
+1783.0
+
+
+ a-D-Galp-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-6)+
+                                                |
+                                           b-D-Galp-(1-4)-D-Glc
+                                                |
+ a-D-Galp-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-3)+
+
+end
+start
+35403
+1783.0
+
+
+ a-D-Galp-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                               |
+                                                            D-Man
+                                                               |
+                b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+44870
+1783.0
+
+
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                |
+                                           b-D-Manp-(1-4)-D-Glc
+                                                |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+5811
+1824.0
+
+
+          a-D-Manp-(1-6)+
+                        |
+                   a-D-Manp-(1-6)+
+                        |        |
+          a-D-Manp-(1-3)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                 |
+ a-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+245
+1824.0
+
+
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                |
+                                           b-D-Manp-(1-4)-D-GlcNAc
+                                                |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+1238
+1824.0
+
+
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-6)+
+                                 |
+                            b-D-Galp-(1-4)-b-D-GlcpNAc-(1-3)-b-D-Galp-(1-4)-b-D-Glcp
+                                 |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-3)+
+
+end
+
+start
+7150
+1824.0
+
+
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                |
+                           b-D-GlcpNAc-(1-4)-D-Man
+                                                |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+8302
+1824.0
+
+
+ a-D-Galp-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-6)+
+                                                |
+                                           b-D-Galp-(1-4)-D-GlcNAc
+                                                |
+ a-D-Galp-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-3)+
+
+end
+start
+10189
+1824.0
+
+
+                   a-D-Manp-(1-3)-a-D-Manp-(1-6/3)+
+                                                  |
+                                             b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                  |
+ b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3/6)+
+
+end
+start
+24271
+1824.0
+
+
+ b-D-GlcpNAc-(1-4)-b-D-Galp-(1-2)-a-D-Manp-(1-6)+
+                                                |
+                                           b-D-Manp-(1-4)-D-GlcNAc
+                                                |
+ b-D-GlcpNAc-(1-4)-b-D-Galp-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+29231
+1824.0
+
+
+          a-D-Manp-(1-6)+
+                        |
+                   a-D-Manp-(1-6)+
+                        |        |
+          a-D-Manp-(1-3)+        |
+                                 |
+          b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-D-GlcNAc
+                                 |
+ b-D-GlcpNAc-(1-3)-a-D-Manp-(1-3)+
+
+end
+start
+32961
+1824.0
+
+
+ a-D-Manp-(1-6)+
+               |
+          a-D-Manp-(1-6)+
+               |        |
+ a-D-Manp-(1-3)+        |
+                        |
+ b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                        |
+          a-D-Manp-(1-3)+
+
+end
+start
+5813
+1906.0
+
+
+       b-D-GlcpNAc-(1-6)+
+                        |
+                   a-D-Manp-(1-6)+
+                        |        |
+       b-D-GlcpNAc-(1-2)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                 |
+ b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+1851
+1906.0
+
+
+ b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                 |
+          b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                 |
+ b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+2115
+1906.0
+
+
+             a-D-Manp-(1-6)+
+                           |
+    b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                           |
+ b-D-GlcpNAc-(1-4)+        |
+                  |        |
+             a-D-Manp-(1-3)+
+                  |
+ b-D-GlcpNAc-(1-2)+
+
+end
+start
+2633
+1906.0
+
+
+                   b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                   |
+                                              b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                   |
+ b-D-GalpNAc-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+5428
+1906.0
+
+
+ b-D-GlcpNAc-(1-6)+
+                  |
+             a-D-Manp-(1-6)+
+                  |        |
+ b-D-GlcpNAc-(1-2)+        |
+                      b-D-Manp-(1-4)-D-GlcNAc
+ b-D-GlcpNAc-(1-4)+        |
+                  |        |
+             a-D-Manp-(1-3)+
+                  |
+ b-D-GlcpNAc-(1-2)+
+
+end
+
+
+start
+8303
+1906.0
+
+
+ b-D-GlcpNAc-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-6)+
+                                                   |
+                                              b-D-Galp-(1-4)-D-GlcNAc
+                                                   |
+ b-D-GlcpNAc-(1-3)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-3)+
+
+end
+start
+23144
+1906.0
+
+
+ b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                 |
+          b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-D-GlcNAc
+                                 |
+       b-D-GlcpNAc-(1-4)+        |
+                        |        |
+                   a-D-Manp-(1-3)+
+                        |
+       b-D-GlcpNAc-(1-2)+
+
+end
+
+start
+1381
+1987.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-6)+
+                              |
+                         a-D-Manp-(1-6)+
+                              |        |
+                a-D-Manp-(1-3)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                       |
+          a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+795
+1987.0
+
+
+                      a-D-Manp-(1-6)+
+                                    |
+                               a-D-Manp-(1-6)+
+                                    |        |
+                      a-D-Manp-(1-3)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                             |
+ a-D-Manp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+1721
+1987.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-3)-a-D-Manp-(1-6)+
+                                             |
+                                        b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                             |
+ a-D-Manp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+2224
+1987.0
+
+
+ a-D-Manp-(1-2)-a-D-Manp-(1-6)+
+                              |
+                         a-D-Manp-(1-6)+
+                              |        |
+ a-D-Manp-(1-2)-a-D-Manp-(1-3)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                       |
+                         a-D-Manp-(1-3)+
+
+end
+
+start
+2422
+1987.0
+
+
+                               a-D-Manp-(1-6)-a-D-Manp-(1-6)+
+                                                            |
+                                                       b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                            |
+ a-D-Glcp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+4311
+1987.0
+
+
+ a-D-Glcp-(1-2)-a-D-Glcp-(1-3)-a-D-Glcp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-3)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+
+end
+
+start
+5988
+1987.0
+
+
+                                                             a-D-Manp-(1-6)+
+                                                                           |
+                                                                      b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                                           |
+ a-D-Glcp-(1-3)-a-D-Glcp-(1-3)-a-D-Manp-(1-2)-a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+11511
+1987.0
+
+
+       a-D-Manp-(1-6)+
+                     |
+ a-D-Manp-(1-3)-a-D-Manp-(1-6)+
+                     |        |
+       b-D-Galf-(1-2)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                              |
+ a-D-Manp-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+36491
+1987.0
+
+
+                                        a-D-Manp-(1-6)+
+                                                      |
+                               a-D-Manp-(1-6)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                             |        |
+                                        a-D-Manp-(1-3)+
+                                             |
+ a-D-Manp-(1-3)-a-D-Manp-(1-2)-a-D-Manp-(1-2)+
+
+end
+start
+1867
+2152.0
+
+
+ b-D-GlcpNAc-(1-6)+
+                  |
+             a-D-Manp-(1-6)+
+                  |        |
+ b-D-GlcpNAc-(1-2)+        |
+                      b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+ b-D-GlcpNAc-(1-4)+        |
+                  |        |
+             a-D-Manp-(1-3)+
+                  |
+ b-D-GlcpNAc-(1-2)+
+
+end
+
+start
+2635
+2152.0
+
+
+ b-D-GalpNAc-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                   |
+                                              b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                   |
+ b-D-GalpNAc-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+2639
+2152.0
+
+
+                         b-D-GlcpNAc-(1-6)+
+                                          |
+                                     a-D-Manp-(1-6)+
+                                          |        |
+                         b-D-GlcpNAc-(1-2)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                   |
+ b-D-GalpNAc-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+2644
+2152.0
+
+
+             b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                             |
+                   b-D-GlcpNAc-(1-4)+   b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                    |        |
+                               a-D-Manp-(1-3)+
+                                    |
+ b-D-GalpNAc-(1-4)-b-D-GlcpNAc-(1-2)+
+
+end
+start
+33856
+2152.0
+
+
+       b-D-GlcpNAc-(1-4)+
+                        |
+                   a-D-Manp-(1-6)+
+                        |        |
+       b-D-GlcpNAc-(1-2)+        |
+                                 |
+          b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                 |
+ b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+start
+1359
+2792.0
+
+
+ a-D-Neup5Ac-(2-6)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                                  |
+                                                             b-D-Manp-(1-4)-b-D-GlcpNAc-(1-4)-D-GlcNAc
+                                                                  |
+ a-D-Neup5Ac-(2-6)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end
+
+start
+25759
+2792.0
+
+
+ a-D-Neup5Ac-(2-3/6)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-6)+
+                                                                    |
+                                             b-D-GlcpNAc-(1-4)-b-D-Manp-(1-4)-D-GlcNAc
+                                                                    |
+ a-D-Neup5Ac-(2-3/6)-b-D-Galp-(1-4)-b-D-GlcpNAc-(1-2)-a-D-Manp-(1-3)+
+
+end

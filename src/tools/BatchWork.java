@@ -7,6 +7,7 @@ import org.eurocarbdb.MolecularFramework.io.CarbohydrateSequenceEncoding;
 import org.eurocarbdb.MolecularFramework.io.SugarImporterFactory;
 import org.eurocarbdb.MolecularFramework.sugar.Sugar;
 
+import debug.MyTimer;
 import spectrum.Peak;
 import util.*;
 
@@ -16,7 +17,7 @@ public class BatchWork {
      * <p>This constant is the searching window of Mass of parent iron.
      * This is used when searching candidate structures.
      */
-    static final double SEARCHING_WINDOW = 2;
+    static final double SEARCHING_WINDOW = 2; // ËÑË÷ÖÊÁ¿µÄÈÝ²î
 
     /** The structure library. */
     static StructureLib strucLib;
@@ -69,12 +70,12 @@ public class BatchWork {
     /**
      * <p>Load structure library file.
      *
-     * @param strucFile path of the structure file
+     * @param strucFile path of the structure library
      * @return true, if the library is successfully loaded
      */
-    public static boolean loadStrucLib(String strucFile) {
+    public static boolean loadStrucLib(String strucLibPath) {
         SugarFragment candiGlycan = new SugarFragment();
-        strucLib = candiGlycan.loadStrucLib(strucFile);
+        strucLib = candiGlycan.loadStrucLib(strucLibPath);
         return true;
     }
     // TODO: unfinished doc
@@ -94,6 +95,8 @@ public class BatchWork {
         // load spectra files, spectra are stored in spList
         loadSpectra(spectraFilePaths);
         
+        MyTimer.showTime("\tloading spectra ended");
+        
         FragMz fragMz = new FragMz();
         // A array containing prior probabilities of candidate structures.
         // For MS2, it is currently uniform distribution
@@ -111,7 +114,9 @@ public class BatchWork {
                 // search the structure library by M/Z of the parent iron.
                 // backup: iterSP.getPreMzList().get(0)
                 //         gets the M/Z of the first precursor ion
+                MyTimer.showTime("\tbefore searching library");
                 candiStrucList = this.searchLib(spectrum.getPreMzList().get(0));
+                MyTimer.showTime("\tafter searching library");
                 this.areCandidatesLoaded = true;
             }
             // If no candidate is found, it is an error
@@ -141,13 +146,15 @@ public class BatchWork {
                     + "\t previous spectrum: " + spectrum.getSpPreFileID());
             }
             
+            MyTimer.showTime("\tbefore calculating");
             // Calculate the distinguishing power(Entropy) of every peak in 
             // current spectrum. At the same time, update the score of every
             // candidate.(not sure)
             ScoreEntropyResult tmpResult = fragMz.executeCount(candiStrucList,
                     spectrum, spectrum.getPreMzList(), cutTime,
                     spectrum.getSpLevel(), WIN, preProbArray, filterRatio);
-    
+            MyTimer.showTime("\tafter calculating");
+            
             if (tmpResult == null) {
                 // debug code
                 System.out.print("tempResult is null.");
@@ -240,6 +247,7 @@ public class BatchWork {
         CarbohydrateSequenceEncoding encode = 
                 CarbohydrateSequenceEncoding.carbbank;
         ArrayList<Double> indexList = BatchWork.strucLib.getMassIndexList();
+        System.out.println("indexList size:\t"+indexList.size());
         Hashtable<Double, ArrayList<String>> indexStrucHash = 
                 BatchWork.strucLib.getCandiStrucHash();
         ArrayList<FragNode> reList = new ArrayList<FragNode>();
@@ -251,10 +259,14 @@ public class BatchWork {
                             .get(iterIndex);
                     int strucID = 1;
                     for (String iterStruc : strucStrList) {
+//                        MyTimer.showTime("\t before import IUPAC");
                         Sugar su = SugarImporterFactory.importSugar(iterStruc,
                                 encode);
+//                        MyTimer.showTime("\t after import IUPAC");
+                        MyTimer.showTime("\t before convert sugar");
                         ConvertSugar test = new ConvertSugar();
                         FragNode strucFragNode = test.convert(su);
+                        MyTimer.showTime("\t after converting sugar");
                         strucFragNode.setStrucID(String.valueOf(++strucID));
                         reList.add(strucFragNode);
                     }

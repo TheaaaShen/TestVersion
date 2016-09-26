@@ -11,6 +11,22 @@ public class PeakEntropyInfo {
     Peak peak;
     int msLevel;
     ArrayList<Integer> candiIDList; // why this is needed ?
+    
+    /**
+     * <p>contains P(S_j|G_i)
+     * <p>featureProbList: f[j][i]
+     * <p>n: the number of candidate structures(maybe fragments for MS3+)
+     * 
+     * <p>One element double[] means the probability list that G_i(i in[1, m]) 
+     * generates theoretical spectrum S_j
+     * 
+     * <p>m: the number of all possible theoretical spectra.
+     * For a particular structure G' from G_i (1<=i<=n), if G' may generate 
+     * this peak (represented by this class), generating next stage spectra 
+     * s_k (1<=k<=m') of G'. m' may >= 1, since some peaks may not appear.
+     * All these s_k of different G' form S_j. m = m' U m'' U m''' ....
+     * 
+     */
     ArrayList<double[]> featureProbList; // what is  feature probability?
     double peakEntropy;
     ArrayList<PeakEntropy> entropyList;
@@ -23,7 +39,7 @@ public class PeakEntropyInfo {
 
     public PeakEntropyInfo(Peak peak) {
         this.peak = peak;
-        int msLevel = 0; // wrong??
+        this.msLevel = 0; 
         this.peakEntropy = -1;
         this.featureProbList = new ArrayList<double[]>();
         this.candiIDList = new ArrayList<Integer>();

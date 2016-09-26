@@ -3,11 +3,12 @@ package main;
 
 import java.util.ArrayList;
 
+import debug.MyTimer;
 import tools.BatchWork;
 
 public class CMain {
     
-    static final String HOME_DIR = "..";
+    static final String HOME_DIR = ".";
     /** library of structure of carb lib dir*/
     static final String CARB_LIB_DIR = HOME_DIR + "/carbbank"; 
     // The folder containing all spectra
@@ -20,12 +21,18 @@ public class CMain {
     static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + "/CarbbankLibAll.txt";
     
     // Output folder
-    static final String outFolder = HOME_DIR + "/Result/";
+    static final String outFolder = HOME_DIR + "/result/";
     
     // Spectra that should be loaded
+//    static final String[] SPECTRA_FILES_LOADED = {
+//            "/1579.mzXML", "/1579_1084.mzXML", "/1579_1302.mzXML", 
+//            "/1579_1302_1084.mzXML"
+//            };
     static final String[] SPECTRA_FILES_LOADED = {
-            "/1579.mzXML", "/1579_1084.mzXML"};
-
+            "/1579.mzXML", "/1579_1084.mzXML", "/1987_1302.mzXML",
+            "/1579_1302_1084.mzXML"
+    };
+    
 //    File[] files = getFilesByPathAndSuffix(DIR, SUFIX);
 //    
 //    for (File file : files) {
@@ -75,9 +82,12 @@ public class CMain {
      */
     public static void main(String[] args){
         
-        int cutTime=3;
-        double WIN=0.6;
-        double filterRatio=0.01;
+        int cutTime=3; // 碎裂次数
+        double WIN=0.6; // 搜索窗口，匹配peak与peak的容差
+        // 正常是0.3，由于仪器校准，所以0.6
+        double filterRatio=0.01; // 过滤< maxInten * filterRatio
+        
+        MyTimer.setStart();
         
         // load structure library (static)
         BatchWork.loadStrucLib(STRUCTURE_LIBRARY_FILE);
@@ -89,9 +99,11 @@ public class CMain {
             spectraFilePaths.add(SPECTRA_DIR + path);
         }
         
+        MyTimer.showTime("load lib and spectra");
+        
         batchwork.batchWork(spectraFilePaths, cutTime, WIN, filterRatio, outFolder);
         //batchwork.writeOut2(outFolder);
-        
+        MyTimer.showTime("end of program");
     }
     // SP = spectra
 }

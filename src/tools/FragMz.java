@@ -3,6 +3,7 @@ package tools;
 
 import java.util.ArrayList;
 
+import debug.MyTimer;
 import spectrum.Peak;
 import util.DataFilter;
 import util.FragNode;
@@ -19,88 +20,6 @@ import util.SugarFragment;
 public class FragMz {
     
     /**
-     * Search level node.
-     * seems never used.
-     *
-     * @param fragNode the frag node
-     * @param spLevel the sp level
-     * @param multiLevelMzList the multi level mz list
-     * @param cutTime the cut time
-     * @return the array list
-     */
-    private ArrayList<FragNode> searchLevelNode(FragNode fragNode,
-            int spLevel, ArrayList<Double> multiLevelMzList,int cutTime) {
-        ArrayList<FragNode> fragNodeList = new ArrayList<FragNode>();
-        ArrayList<FragNode> tmpNodeList = new ArrayList<FragNode>();
-        fragNodeList.add(fragNode);
-        for (int i = 0; i <= spLevel - 2; i++) {
-
-            for (FragNode iterNode : fragNodeList) {
-                double nodeMass=multiLevelMzList.get(i);
-                /*
-                 *searchSubtree....Mass2: for detect cut two time node
-                 *searchSubtree....Mass3: for detect cut more than two time node
-                 */
-                
-//                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass(nodeMass);
-//                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass2(nodeMass);
-                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass3(nodeMass,cutTime);
-                if (fetchedNodeList != null)
-                    tmpNodeList.addAll(fetchedNodeList);
-            }
-            fragNodeList = fragNode.fragNodeListClone(tmpNodeList);
-            tmpNodeList.clear();
-            
-        }
-        
-        if(fragNodeList.size()<1)
-        {
-            fragNodeList=null;
-        }
-        return fragNodeList;
-    }
-    
-    /**
-     * Search level node 2.
-     *
-     * @param fragNode the frag node
-     * @param spLevel the sp level
-     * @param multiLevelMzList the multi level mz list
-     * @param cutTime the cut time
-     * @return the array list
-     */
-    private ArrayList<FragNode> searchLevelNode2(ArrayList<FragNode> fragNode,
-            int spLevel, ArrayList<Double> multiLevelMzList,int cutTime) {
-        ArrayList<FragNode> fragNodeList = new ArrayList<FragNode>();
-        ArrayList<FragNode> tmpNodeList = new ArrayList<FragNode>();
-        fragNodeList=fragNode;
-        for (int i = 0; i <= spLevel - 2; i++) {
-            for (FragNode iterNode : fragNodeList) {
-                double nodeMass=multiLevelMzList.get(i);
-                /*
-                 *searchSubtree....Mass2: for detect cut two time node
-                 *searchSubtree....Mass3: for detect cut more than two time node
-                 */
-                
-//                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass(nodeMass);
-//                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass2(nodeMass);
-                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass3(nodeMass,cutTime);
-                if (fetchedNodeList != null)
-                    tmpNodeList.addAll(fetchedNodeList);
-            }
-            fragNodeList = FragNode.fragNodeListClone(tmpNodeList);
-            tmpNodeList.clear();
-            
-        }
-        
-        if(fragNodeList.size()<1)
-        {
-            fragNodeList=null;
-        }
-        return fragNodeList;
-    }
-    
-    /**
      * Cout theory sp.
      *
      * @param subStrucFragNodeList the sub struc frag node list
@@ -108,22 +27,26 @@ public class FragMz {
      * @return the array list
      */
     //给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
-    private ArrayList<ArrayList<FragNode>> coutTheorySp(ArrayList<ArrayList<FragNode>> subStrucFragNodeList, int cutTime) {
-        ArrayList<ArrayList<FragNode>> subStrucTheorySpPeakList=new ArrayList<ArrayList<FragNode>>();
-        if(subStrucFragNodeList==null)
-        {
+    private ArrayList<ArrayList<FragNode>> coutTheorySp(
+            ArrayList<ArrayList<FragNode>> subStrucFragNodeList, 
+            int cutTime) {
+        MyTimer.showTime("\t \t before new a new arraylist");
+        ArrayList<ArrayList<FragNode>> subStrucTheorySpPeakList = 
+                new ArrayList<ArrayList<FragNode>>();
+        
+        if(subStrucFragNodeList==null) {
             return null;
         }
+        
         for (ArrayList<FragNode> iterList : subStrucFragNodeList) {
+            MyTimer.showTime("\t \t before enumrate a sp for one substurc");
             ArrayList<FragNode> theoryPeakNodeList=new ArrayList<FragNode>();
-            if(iterList==null)
-            {
+            if(iterList==null) {
                 subStrucTheorySpPeakList.add(null);
                 continue;
             }
 
-            for(FragNode iterNode:iterList)
-            {
+            for(FragNode iterNode:iterList) {
                 /*
                  * @TheorySpList: add filter
                  * @TheoryCutIonList: just cut segments,no filter
@@ -136,11 +59,10 @@ public class FragMz {
                     theoryPeakNodeList.addAll(tmpPeakNodeList);
                 }
             }
-            if(theoryPeakNodeList.size()>0)
-            {
+            if(theoryPeakNodeList.size()>0) {
                 subStrucTheorySpPeakList.add(theoryPeakNodeList);
             }
-                        
+            MyTimer.showTime("\t \t end enumrate a sp for one substurc");
         }
         return subStrucTheorySpPeakList;
     }
@@ -165,25 +87,30 @@ public class FragMz {
             // Get all peaks 这个是指实验谱
             Peak[] expSPArray = spectrum.getPeakArray();
             
+            MyTimer.showTime("\tbefore theory spectrum");
             // Enumerate all theoretic spectra: S_{i,j}
             ArrayList<ArrayList<FragNode>> candiTheorySPList = countTheorySp(
                     candiStrucList, multiLevelMzList, spLevel, cutTime);
             if(candiTheorySPList==null) {
                 return null;
             }
-            
+            MyTimer.showTime("\tafter theory specrum");
             // remove small peaks in the experimental spectrum ??
             expSPArray = spectrumFilter(expSPArray,filterRatio);
             
+            MyTimer.showTime("\tbefore scoring");
             // Calculate the scores of candidate structures
             ArrayList<CompareInfo> scoreInfoList = ScoreModel.
                     scoreA(candiTheorySPList, expSPArray, preProbArray, WIN);
+            MyTimer.showTime("\tafter scoring");
             
+            MyTimer.showTime("\tbefore calculating DP");
             // Calculate the distinguishing power of all peaks 
             int peakLevel = spectrum.getSpLevel();
             ArrayList<PeakEntropyInfo> peakEntropyList = 
                     coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
 //            ArrayList<PeakEntropyInfo> peakEntropyList=null;
+            MyTimer.showTime("\tafter calculating DP");
             
             ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
             return tmpResult;
@@ -275,39 +202,126 @@ public class FragMz {
          * @return the array list
          */
         //寻找第spLevel级谱对应的子树根节点
-        private ArrayList<ArrayList<FragNode>> searchSpLevelNodeListWithMass(ArrayList<FragNode> candiStrucList,ArrayList<Double> multiLevelMzList,int spLevel,int cutTime)
-        {
-            ArrayList<ArrayList<FragNode>> candiNodeList=new ArrayList<ArrayList<FragNode>>();
+        private ArrayList<ArrayList<FragNode>> searchSpLevelNodeListWithMass(
+                ArrayList<FragNode> candiStrucList,
+                ArrayList<Double> multiLevelMzList,
+                int spLevel,int cutTime){
+            MyTimer.showTime("before searchSpLevelNodeListWithMass");
+            ArrayList<ArrayList<FragNode>> candiNodeList = 
+                    new ArrayList<ArrayList<FragNode>>();
             boolean detected=false;
-    //        for(FragNode iterStruc:candiStrucList)
-            for(int i=1;i<candiStrucList.size();i++)
-            {
+            //for(FragNode iterStruc:candiStrucList)
+            for(int i=1;i<candiStrucList.size();i++) {
                 ArrayList<FragNode> iterStrucList=new ArrayList<FragNode>();
-                if(i==1)
-                {
+                if(i==1){
                     iterStrucList.add(candiStrucList.get(0));
                     iterStrucList.add(candiStrucList.get(i));
-                    
-                }else
-                {
+                } else {
                     iterStrucList.add(candiStrucList.get(i));
                 }
-                ArrayList<FragNode> candiNode=this.searchLevelNode2(iterStrucList, spLevel,multiLevelMzList,cutTime);
+                ArrayList<FragNode> candiNode = 
+                        this.searchLevelNode2(
+                                iterStrucList, spLevel,multiLevelMzList,cutTime
+                                );
                 candiNodeList.add(candiNode);
-                if(candiNode!=null)
-                {
+                if(candiNode!=null){
                     detected=true;
                 }
                 
             }
-            if(detected)
-            {
-                return candiNodeList;
-            }else
-            {
-                return null;
+            MyTimer.showTime("after searchSpLevelNodeListWithMass");
+//            if(detected){
+//                return candiNodeList;
+//            } else {
+//                return null;
+//            }
+            return detected?candiNodeList:null;
+        }
+
+    /**
+         * Search level node 2.
+         *
+         * @param fragNode the frag node
+         * @param spLevel the sp level
+         * @param multiLevelMzList the multi level mz list
+         * @param cutTime the cut time
+         * @return the array list
+         */
+        private ArrayList<FragNode> searchLevelNode2(ArrayList<FragNode> fragNode,
+                int spLevel, ArrayList<Double> multiLevelMzList,int cutTime) {
+            ArrayList<FragNode> fragNodeList = new ArrayList<FragNode>();
+            ArrayList<FragNode> tmpNodeList = new ArrayList<FragNode>();
+            fragNodeList=fragNode;
+            for (int i = 0; i <= spLevel - 2; i++) {
+                for (FragNode iterNode : fragNodeList) {
+                    double nodeMass=multiLevelMzList.get(i);
+                    /*
+                     * searchSubtree....Mass2: for detect cut two time node
+                     * searchSubtree....Mass3: for detect cut more than two time node
+                     */
+                    
+    //                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass(nodeMass);
+    //                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass2(nodeMass);
+//                    MyTimer.showTime("\t before searchSubtreeNodeListWithMass3");
+                    ArrayList<FragNode> fetchedNodeList = 
+                            iterNode.searchSubtreeNodeListWithMass3(nodeMass,cutTime);
+//                    MyTimer.showTime("\t after searchSubtreeNodeListWithMass3");
+                    if (fetchedNodeList != null)
+                        tmpNodeList.addAll(fetchedNodeList);
+                }
+//                MyTimer.showTime("\t before fragNodeListClone");
+                fragNodeList = FragNode.fragNodeListClone(tmpNodeList);
+//                MyTimer.showTime("\t after fragNodeListClone");
+                tmpNodeList.clear();
+                
             }
             
+            if(fragNodeList.size()<1) {
+                fragNodeList=null;
+            }
+            return fragNodeList;
+        }
+
+        /**
+         * Search level node.
+         * seems never used.!!
+         *
+         * @param fragNode the frag node
+         * @param spLevel the sp level
+         * @param multiLevelMzList the multi level mz list
+         * @param cutTime the cut time
+         * @return the array list
+         */
+        private ArrayList<FragNode> searchLevelNode(FragNode fragNode,
+                int spLevel, ArrayList<Double> multiLevelMzList,int cutTime) {
+            ArrayList<FragNode> fragNodeList = new ArrayList<FragNode>();
+            ArrayList<FragNode> tmpNodeList = new ArrayList<FragNode>();
+            fragNodeList.add(fragNode);
+            for (int i = 0; i <= spLevel - 2; i++) {
+    
+                for (FragNode iterNode : fragNodeList) {
+                    double nodeMass=multiLevelMzList.get(i);
+                    /*
+                     *searchSubtree....Mass2: for detect cut two time node
+                     *searchSubtree....Mass3: for detect cut more than two time node
+                     */
+                    
+    //                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass(nodeMass);
+    //                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass2(nodeMass);
+                    ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass3(nodeMass,cutTime);
+                    if (fetchedNodeList != null)
+                        tmpNodeList.addAll(fetchedNodeList);
+                }
+                fragNodeList = fragNode.fragNodeListClone(tmpNodeList);
+                tmpNodeList.clear();
+                
+            }
+            
+            if(fragNodeList.size()<1)
+            {
+                fragNodeList=null;
+            }
+            return fragNodeList;
         }
 
     /**
