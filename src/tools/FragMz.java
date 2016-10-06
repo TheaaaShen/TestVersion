@@ -111,7 +111,6 @@ public class FragMz {
                     coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
 //            ArrayList<PeakEntropyInfo> peakEntropyList=null;
             MyTimer.showTime("\tafter calculating DP");
-            
             ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
             return tmpResult;
     
@@ -211,14 +210,15 @@ public class FragMz {
                     new ArrayList<ArrayList<FragNode>>();
             boolean detected=false;
             //for(FragNode iterStruc:candiStrucList)
-            for(int i=1;i<candiStrucList.size();i++) {
+            for(int i=0;i<candiStrucList.size();i++) {
                 ArrayList<FragNode> iterStrucList=new ArrayList<FragNode>();
-                if(i==1){
-                    iterStrucList.add(candiStrucList.get(0));
-                    iterStrucList.add(candiStrucList.get(i));
-                } else {
-                    iterStrucList.add(candiStrucList.get(i));
-                }
+//                if(i==1){
+//                    iterStrucList.add(candiStrucList.get(0));
+//                    iterStrucList.add(candiStrucList.get(i));
+//                } else {
+//                    iterStrucList.add(candiStrucList.get(i));
+//                }
+                iterStrucList.add(candiStrucList.get(i));
                 ArrayList<FragNode> candiNode = 
                         this.searchLevelNode2(
                                 iterStrucList, spLevel,multiLevelMzList,cutTime

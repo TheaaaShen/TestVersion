@@ -28,9 +28,12 @@ public class CMain {
 //            "/1579.mzXML", "/1579_1084.mzXML", "/1579_1302.mzXML", 
 //            "/1579_1302_1084.mzXML"
 //            };
-    static final String[] SPECTRA_FILES_LOADED = {
+    /*static final String[] SPECTRA_FILES_LOADED = {
             "/1579.mzXML", "/1579_1084.mzXML", "/1987_1302.mzXML",
             "/1579_1302_1084.mzXML"
+    };*/
+    static final String[] SPECTRA_FILES_LOADED = {
+            "/2151.mzXML"
     };
     
 //    File[] files = getFilesByPathAndSuffix(DIR, SUFIX);

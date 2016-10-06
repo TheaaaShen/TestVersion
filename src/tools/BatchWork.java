@@ -157,7 +157,7 @@ public class BatchWork {
             
             if (tmpResult == null) {
                 // debug code
-                System.out.print("tempResult is null.");
+                System.out.print("In BatchWork: tempResult is null.");
                 continue; // ignore this spectrum
             }
             
