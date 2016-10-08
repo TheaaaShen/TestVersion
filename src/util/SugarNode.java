@@ -43,14 +43,37 @@ public class SugarNode implements Cloneable,Serializable{
         }
         return re;
     }
+    
+    /**
+     *  This method is modified.
+     *  SugarNode objects in child_list are not deeply copied!
+     *  I am not sure if this type of clone is correct.
+     *  @author Jingwei Zhang
+     * @see java.lang.Object#clone()
+     */
     public SugarNode clone() { 
         SugarNode o = null; 
         try { 
         o = (SugarNode)super.clone(); 
-        } catch (CloneNotSupportedException e) {} 
-        return o;
-
+        } catch (CloneNotSupportedException e) {
+            
+        } 
+        o.node_string = this.node_string;
+        o.node_mass = this.node_mass;
+        o.node_level = this.node_level;
+        o.node_type = this.node_type;
+        o.parent_node = this.parent_node;
+        o.tree_mass = this.tree_mass;
+        o.bond_cut_time = this.bond_cut_time;
+        o.node_ID = this.node_ID;
+        o.bond_cut_type = this.bond_cut_type;
+        
+        o.child_list = new ArrayList<SugarNode>();
+        for(SugarNode sn: this.child_list){
+            o.child_list.add(sn);
         }
+        return o;
+    }
     /*
      * realize the complete object clone through serialize
      * 

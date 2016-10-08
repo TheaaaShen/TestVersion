@@ -301,10 +301,10 @@ public class FragMz {
     
                 for (FragNode iterNode : fragNodeList) {
                     double nodeMass=multiLevelMzList.get(i);
-                    /*
-                     *searchSubtree....Mass2: for detect cut two time node
-                     *searchSubtree....Mass3: for detect cut more than two time node
-                     */
+                    //
+                    //searchSubtree....Mass2: for detect cut two time node
+                    //searchSubtree....Mass3: for detect cut more than two time node
+                    //
                     
     //                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass(nodeMass);
     //                ArrayList<FragNode> fetchedNodeList = iterNode.searchSubtreeNodeListWithMass2(nodeMass);
@@ -323,6 +323,7 @@ public class FragMz {
             }
             return fragNodeList;
         }
+        
 
     /**
      * Load spectrum

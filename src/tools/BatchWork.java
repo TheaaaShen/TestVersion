@@ -102,7 +102,9 @@ public class BatchWork {
         // For MS2, it is currently uniform distribution
         // For MS3+, It is the posterior probabilities using previous spectra
         double[] preProbArray;
-        for(SPComponent spectrum : spList) {
+        for(int sp_i = 0;sp_i < spList.size(); sp_i++){
+        //for(SPComponent spectrum : spList) {
+            SPComponent spectrum = spList.get(sp_i);
             ArrayList<FragNode> candiStrucList = new ArrayList<FragNode>();
             if (this.areCandidatesLoaded) {
                 // If the candidate structures are already gotten 
@@ -140,10 +142,10 @@ public class BatchWork {
             } else {
                 // If current spectrum is not MS2, get the probability array
                 // by previous spectrum file ID
-                preProbArray = probArrayHash.get(spectrum.getSpPreFileID());
+                preProbArray = probArrayHash.get(spList.get(sp_i-1).getSpFileID());
                 // Print current spectrum file ID and previous one
                 System.out.println("current spectrum: "+spectrum.getSpFileID() 
-                    + "\t previous spectrum: " + spectrum.getSpPreFileID());
+                    + "\t previous spectrum: " + spList.get(sp_i-1).getSpFileID());
             }
             
             MyTimer.showTime("\tbefore calculating");

@@ -19,17 +19,39 @@ public class FragNode implements Cloneable, Serializable {
     public ArrayList<FragNode> sub_node_list;
     public ArrayList<Character> cutTypeList;
 
+    
     public FragNode clone() {
         FragNode o = null;
         try {
             o = (FragNode) super.clone();
         } catch (CloneNotSupportedException e) {
+            
         }
         return o;
     }
 
-    public static FragNode cloneObject(Object obj) {
-        try {
+    public static FragNode cloneObject(FragNode obj) {
+        FragNode fg = new FragNode();
+        fg.node = obj.node.clone();
+        fg.frag_time = obj.frag_time;
+        fg.subtree_mass = obj.subtree_mass;
+        fg.ionType = obj.ionType;
+        fg.ionTypeNote = obj.ionTypeNote;
+        fg.strucID = obj.strucID;
+        fg.cutPos = obj.cutPos;
+        
+        fg.sub_node_list = new ArrayList<FragNode>();
+        for(FragNode f: obj.sub_node_list){
+            fg.sub_node_list.add(f);
+        }
+        
+        fg.cutTypeList = new ArrayList<Character>();
+        for(Character c: obj.cutTypeList){
+            fg.cutTypeList.add(c);
+        }
+        return fg;
+        
+        /*try {
 
             ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(byteOut);
@@ -42,7 +64,7 @@ public class FragNode implements Cloneable, Serializable {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
+        }*/
 
     }
 
