@@ -107,9 +107,9 @@ public class FragMz {
             MyTimer.showTime("\tbefore calculating DP");
             // Calculate the distinguishing power of all peaks 
             int peakLevel = spectrum.getSpLevel();
-            ArrayList<PeakEntropyInfo> peakEntropyList = 
-                    coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
-//            ArrayList<PeakEntropyInfo> peakEntropyList=null;
+//            ArrayList<PeakEntropyInfo> peakEntropyList = 
+//                    coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
+            ArrayList<PeakEntropyInfo> peakEntropyList=null;
             MyTimer.showTime("\tafter calculating DP");
             ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
             return tmpResult;
