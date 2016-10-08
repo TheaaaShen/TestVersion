@@ -1,7 +1,11 @@
 package tools;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
 
 import org.eurocarbdb.MolecularFramework.io.CarbohydrateSequenceEncoding;
 import org.eurocarbdb.MolecularFramework.io.SugarImporterFactory;
@@ -9,7 +13,13 @@ import org.eurocarbdb.MolecularFramework.sugar.Sugar;
 
 import debug.MyTimer;
 import spectrum.Peak;
-import util.*;
+import util.ConvertSugar;
+import util.FragNode;
+import util.SPComponent;
+import util.Spectrum;
+import util.StructureLib;
+import util.SugarFragment;
+
 
 public class BatchWork {
     
