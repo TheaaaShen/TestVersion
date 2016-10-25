@@ -9,66 +9,65 @@ public class ScoreModel {
     
     /**
      * Score model:
-     * @P=0.7
+     * @P=0.75
      * match peaks£º 
      * probScore=Math.pow(P, matchNum)*Math.pow(1-P, unionMatchedNum-matchNum);
      * probScore=probScore/sumProbScore;
      */
-    public static ArrayList<CompareInfo> scoreA(ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,double[] preScoreArray,double WIN)
-    {
+    public static ArrayList<CompareInfo> scoreA(
+            ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,
+            double[] preScoreArray,double WIN) {
         double P=0.75;
         ArrayList<CompareInfo> candiSpMatchList=new ArrayList<CompareInfo>();
-        for(int i=0;i<candiSpList.size();i++)
-        {
+        for(int i=0;i<candiSpList.size();i++) {
             ArrayList<FragNode> theorySpPeakList=candiSpList.get(i);
-            if(theorySpPeakList==null)
-            {
+            if(theorySpPeakList==null) {
                 candiSpMatchList.add(null);    
-            }else
-            {
-            ArrayList<PeakInfo> matchedPeakList=theroExpSpMatch2(theorySpPeakList,expSpData,WIN);
-            CompareInfo matchResult=new CompareInfo();
-            matchResult.setCandiID(String.valueOf(i));
-            matchResult.setMatchPeakList(matchedPeakList);
+            }else {
+                ArrayList<PeakInfo> matchedPeakList = theroExpSpMatch2(
+                        theorySpPeakList,expSpData,WIN);
+                CompareInfo matchResult=new CompareInfo();
+                matchResult.setCandiID(String.valueOf(i));
+                matchResult.setMatchPeakList(matchedPeakList);
             
-            candiSpMatchList.add(matchResult);
+                candiSpMatchList.add(matchResult);
             }
         }
         
         int unionMatchedNum=getUnionMatchedPeakNum(candiSpMatchList);
         double unionScore=0;
-        for(int j=0;j<candiSpMatchList.size();j++)
-        {
+        for(int j=0;j<candiSpMatchList.size();j++) {
             CompareInfo tmpInfo=candiSpMatchList.get(j);
-            if(tmpInfo==null)
-            {
+            if(tmpInfo==null) {
                 continue;
-            }else
-            {
-            int matchNum=tmpInfo.getMatchPeakList().size();
-            double probScore=Math.pow(P, matchNum)*Math.pow(1-P, unionMatchedNum-matchNum);
-            String infoStr=matchNum+"\t"+unionMatchedNum+"\t"+expSpData.length+"\t"+probScore+"\t"+preScoreArray[j];
+            }else {
+                int matchNum=tmpInfo.getMatchPeakList().size();
+                double probScore=Math.pow(P, matchNum)*Math.pow(1-P, unionMatchedNum-matchNum);
+                System.out.println(preScoreArray == null);
+                String infoStr = matchNum + "\t" + unionMatchedNum + "\t" 
+                        + expSpData.length + "\t" + probScore + "\t" 
+                        + preScoreArray[j];
+                
+                System.out.println(j + "\t"+infoStr);
+                System.out.println(probScore+"\t"+preScoreArray[j]);
+                probScore=probScore*preScoreArray[j];
             
-//            System.out.println(infoStr);
-//            System.out.println(probScore+"\t"+preScoreArray[j]);
-            probScore=probScore*preScoreArray[j];
-        
-            candiSpMatchList.get(j).setScore(probScore);
-            candiSpMatchList.get(j).setMatchedNum(matchNum);
-            candiSpMatchList.get(j).setUnionMatchedNum(unionMatchedNum);
-            candiSpMatchList.get(j).setScoreInfoStr(infoStr);
-            unionScore=unionScore+probScore;
-            
+                candiSpMatchList.get(j).setScore(probScore);
+                candiSpMatchList.get(j).setMatchedNum(matchNum);
+                candiSpMatchList.get(j).setUnionMatchedNum(unionMatchedNum);
+                candiSpMatchList.get(j).setScoreInfoStr(infoStr);
+                unionScore=unionScore+probScore;
             }
         }
-        for(int k=0;k<candiSpMatchList.size();k++)
-        {
-            if(candiSpMatchList.get(k)!=null)
-            {
+        for(int k=0;k<candiSpMatchList.size();k++) {
+            if(candiSpMatchList.get(k)!=null) {
             double normalizedScore=candiSpMatchList.get(k).getScore()/unionScore;
             candiSpMatchList.get(k).setScore(normalizedScore);
 //            System.out.println("Prob. :"+normalizedScore);
-            candiSpMatchList.get(k).setScoreInfoStr(candiSpMatchList.get(k).candiStrucID+"\t"+normalizedScore+"\t"+candiSpMatchList.get(k).getScoreInfoStr());
+            candiSpMatchList.get(k).setScoreInfoStr(
+                    candiSpMatchList.get(k).candiStrucID + "\t" 
+                    + normalizedScore + "\t" 
+                    + candiSpMatchList.get(k).getScoreInfoStr());
             }
         }
         return candiSpMatchList;
@@ -377,6 +376,16 @@ public class ScoreModel {
         
     }
     
+    public static double coutSumMatchIntensRatio(ArrayList<PeakInfo> matchPeakList)
+    {
+        double sumIntens=0;
+        for(int i=0;i<matchPeakList.size();i++)
+        {
+            sumIntens=sumIntens+matchPeakList.get(i).getPeakIntens();
+        }
+        return sumIntens/matchPeakList.get(0).getSumIntens();
+    }
+
     /**
      * Score Model E:
      * @P=0.7
@@ -681,16 +690,6 @@ public class ScoreModel {
         return candiSpMatchList;
         
     }
-    public static double coutSumMatchIntensRatio(ArrayList<PeakInfo> matchPeakList)
-    {
-        double sumIntens=0;
-        for(int i=0;i<matchPeakList.size();i++)
-        {
-            sumIntens=sumIntens+matchPeakList.get(i).getPeakIntens();
-        }
-        return sumIntens/matchPeakList.get(0).getSumIntens();
-    }
-    
     public static void main(String[] args)
     {
         

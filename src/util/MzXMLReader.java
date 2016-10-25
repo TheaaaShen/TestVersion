@@ -38,14 +38,12 @@ public class MzXMLReader {
     
     public void init(String pep_xml) {
         try{
-            
-        File pepXML_file = new File(pep_xml);
-        charBuffer = new StringBuilder(1 << 20);
-        peak_str=new String();
-        SAXParserFactory sax_fac = SAXParserFactory.newInstance();
-        SAXParser sax_parser = sax_fac.newSAXParser();
-        sax_parser.parse(pepXML_file, hander);
-    
+            File pepXML_file = new File(pep_xml);
+            charBuffer = new StringBuilder(1 << 20);
+            peak_str=new String();
+            SAXParserFactory sax_fac = SAXParserFactory.newInstance();
+            SAXParser sax_parser = sax_fac.newSAXParser();
+            sax_parser.parse(pepXML_file, hander);
         }catch(Exception e)
         {
             e.printStackTrace();
@@ -142,6 +140,7 @@ public class MzXMLReader {
             peak_group = peak_vector.toArray(new Peak[0]);
             return peak_group;
         } catch (Exception e) {
+            System.out.print("In class MzXMLReader: decode_str: ");
             System.out.println(e.getMessage());
             return null;
         }

@@ -39,7 +39,7 @@ public class FragMz {
         }
         
         for (ArrayList<FragNode> iterList : subStrucFragNodeList) {
-            MyTimer.showTime("\t \t before enumrate a sp for one substurc");
+            // MyTimer.showTime("\t \t before enumrate a sp for one substurc");
             ArrayList<FragNode> theoryPeakNodeList=new ArrayList<FragNode>();
             if(iterList==null) {
                 subStrucTheorySpPeakList.add(null);
@@ -62,7 +62,7 @@ public class FragMz {
             if(theoryPeakNodeList.size()>0) {
                 subStrucTheorySpPeakList.add(theoryPeakNodeList);
             }
-            MyTimer.showTime("\t \t end enumrate a sp for one substurc");
+            //MyTimer.showTime("\t \t end enumrate a sp for one substurc");
         }
         return subStrucTheorySpPeakList;
     }

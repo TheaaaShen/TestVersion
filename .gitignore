@@ -1,0 +1,14 @@
+# Compiled source of java #
+*.class
+
+# structure library directory #
+carbbank/
+
+# result directory #
+result/
+
+# spectra directory #
+spectra/
+
+# ignore jar compiled from this project, not those 3-rd party libraries #
+./*.jar

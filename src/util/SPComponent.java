@@ -55,6 +55,7 @@ public class SPComponent {
         for (String iterMzStr : splits) {
             preMzList.add(Double.parseDouble(iterMzStr));
         }
+        
     }
 
     /**
@@ -70,8 +71,7 @@ public class SPComponent {
             MzXMLReader mzxmlReader=new MzXMLReader();
             mzxmlReader.init(spFile);
             expIonArray=mzxmlReader.get_peak_list();
-        }catch(Exception e)
-        {
+        }catch(Exception e){
             e.printStackTrace();
         }
         return expIonArray;

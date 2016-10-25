@@ -16,6 +16,7 @@ import spectrum.Peak;
 import util.ConvertSugar;
 import util.FragNode;
 import util.SPComponent;
+import util.SPComponentComparator;
 import util.Spectrum;
 import util.StructureLib;
 import util.SugarFragment;
@@ -86,6 +87,7 @@ public class BatchWork {
     public static boolean loadStrucLib(String strucLibPath) {
         SugarFragment candiGlycan = new SugarFragment();
         strucLib = candiGlycan.loadStrucLib(strucLibPath);
+        
         return true;
     }
     // TODO: unfinished doc
@@ -112,6 +114,9 @@ public class BatchWork {
         // For MS2, it is currently uniform distribution
         // For MS3+, It is the posterior probabilities using previous spectra
         double[] preProbArray;
+        // This array stores computed spectra. These spectra are used to get prior
+        // probabilities.
+        ArrayList<SPComponent> previousSpectra = new ArrayList<SPComponent>();
         for(int sp_i = 0;sp_i < spList.size(); sp_i++){
         //for(SPComponent spectrum : spList) {
             SPComponent spectrum = spList.get(sp_i);
@@ -137,6 +142,8 @@ public class BatchWork {
                         + " is between " + spectrum.getPreMzList().get(0) 
                         + "+-" + SEARCHING_WINDOW);
                 continue; // ignore this spectrum
+            } else {
+                System.out.println("Number of candidates: " + candiStrucList.size());
             }
             
             // detect one cut or two cut, then search FragNode ??
@@ -152,10 +159,13 @@ public class BatchWork {
             } else {
                 // If current spectrum is not MS2, get the probability array
                 // by previous spectrum file ID
-                preProbArray = probArrayHash.get(spList.get(sp_i-1).getSpFileID());
+                SPComponent preSpectrum = previousSpectra.get(
+                        previousSpectra.size()-1);
+                preProbArray = probArrayHash.get(preSpectrum.getSpFileID());
                 // Print current spectrum file ID and previous one
                 System.out.println("current spectrum: "+spectrum.getSpFileID() 
-                    + "\t previous spectrum: " + spList.get(sp_i-1).getSpFileID());
+                    + "\t previous spectrum: " 
+                    + preSpectrum.getSpFileID());
             }
             
             MyTimer.showTime("\tbefore calculating");
@@ -169,7 +179,7 @@ public class BatchWork {
             
             if (tmpResult == null) {
                 // debug code
-                System.out.print("In BatchWork: tempResult is null.");
+                System.out.println("In BatchWork: tempResult is null.");
                 continue; // ignore this spectrum
             }
             
@@ -223,7 +233,7 @@ public class BatchWork {
             
             // stores this spectrum
             spComponentHash.put(spectrum.getSpFileID(), spectrum);
-            
+            previousSpectra.add(spectrum);
             this.writeOut(spectrum, outFolder);
             
         } // End of for(SPComponent spectrum : spList)
@@ -247,6 +257,7 @@ public class BatchWork {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        spList.sort(new SPComponentComparator());
     }
 
     /**
@@ -307,12 +318,13 @@ public class BatchWork {
         Peak[] peaks = spectrum.getPeakArray(); // previous name expSP
         // Every spectrum should exist at least 2 peaks,
         // otherwise it is an error
-        if (peaks == null || peaks.length < 2) {
+        if (peaks == null || peaks.length < 10) {
             noError = false;
-            System.out.println("spectrum is error:" + spectrum.getSpFileID());
+            System.out.println("spectrum is error(len<4 or null):" + spectrum.getSpFileID());
         } else {
             noError = true;
-            System.out.println("spectrum is ok:" + spectrum.getSpFileID());
+            System.out.println("spectrum is ok:" + spectrum.getSpFileID() 
+                + "\tpeak num: " + spectrum.getPeakArray().length);
         }
         return noError;
     }
