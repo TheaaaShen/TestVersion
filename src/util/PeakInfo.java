@@ -11,7 +11,10 @@ import java.util.ArrayList;
  */
 public class PeakInfo {
 
-    /** The M/Z of this peak. */
+    /** 
+     * The M/Z of this peak. 
+     * In ScoreModel.theroExpSpMatch, this m/z is m/z of real peaks.
+     */
     double peakMz;
     
     /** The intensity of this peak.(whether this intensity is relative?) ?? */
@@ -24,8 +27,10 @@ public class PeakInfo {
     ArrayList<FragNode> candiFragNodeList;
     
     /** 
-     * The sum intens. ?? what does this mean? 
-     * why the sum appears in a peak class ?*/
+     * The sum intensity of all peaks in **experimental(real)** spectrum. 
+     * This is used in 
+     * ScoreModel.theroExpSpMatch(ArrayList<FragNode>, Peak[], double).
+     */
     double sumIntens;
 
     public PeakInfo(double peakMz, double peakIntens, ArrayList<FragNode> candiFragNodeList) {

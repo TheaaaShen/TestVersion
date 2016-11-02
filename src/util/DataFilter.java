@@ -199,9 +199,12 @@ public class DataFilter {
     }
 
     // 过滤理论谱，多次断裂和次多次断裂对应同样碎片时认为是最少断裂次数形成的
-    public static ArrayList<FragNode> filterTheorySpSameMassIon(ArrayList<FragNode> nodeList) {
+    public static ArrayList<FragNode> filterTheorySpSameMassIon(
+            ArrayList<FragNode> nodeList) {
+        if(nodeList == null){
+            return nodeList;
+        }
         ArrayList<FragNode> filtedList = new ArrayList<FragNode>();
-
         for(int i = 0; i < nodeList.size();) {
             FragNode tmpNode = nodeList.get(i);
             i++;

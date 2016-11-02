@@ -318,9 +318,10 @@ public class BatchWork {
         Peak[] peaks = spectrum.getPeakArray(); // previous name expSP
         // Every spectrum should exist at least 2 peaks,
         // otherwise it is an error
-        if (peaks == null || peaks.length < 10) {
+        if (peaks == null || peaks.length < 2) {
             noError = false;
-            System.out.println("spectrum is error(len<4 or null):" + spectrum.getSpFileID());
+            System.out.println("spectrum is error(len < 2 or null):" 
+                    + spectrum.getSpFileID());
         } else {
             noError = true;
             System.out.println("spectrum is ok:" + spectrum.getSpFileID() 

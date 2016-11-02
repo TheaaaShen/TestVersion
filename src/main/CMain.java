@@ -19,7 +19,7 @@ public class CMain {
     static final String SPECTRA_FILE_SUFFIX = ".mzXML";
     
     /** The name of the library file storing glycal structures */
-    static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + "/Man9.txt";
+    static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + "/standard_lib.txt";
     
     // Output folder
     static final String OUT_FOLDER = HOME_DIR + "/result/";

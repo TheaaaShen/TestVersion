@@ -101,7 +101,7 @@ public class FragMz {
             MyTimer.showTime("\tbefore scoring");
             // Calculate the scores of candidate structures
             ArrayList<CompareInfo> scoreInfoList = ScoreModel.
-                    scoreA(candiTheorySPList, expSPArray, preProbArray, WIN);
+                    score(candiTheorySPList, expSPArray, preProbArray, WIN);
             MyTimer.showTime("\tafter scoring");
             
             MyTimer.showTime("\tbefore calculating DP");
