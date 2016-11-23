@@ -19,7 +19,8 @@ public class CMain {
     static final String SPECTRA_FILE_SUFFIX = ".mzXML";
     
     /** The name of the library file storing glycal structures */
-    static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + "/standard_lib.txt";
+    static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + //"/filter_mass/filter-mass.1287.6304.txt"; 
+            "/standard_lib.txt";
     
     // Output folder
     static final String OUT_FOLDER = HOME_DIR + "/result/";
@@ -30,8 +31,10 @@ public class CMain {
 //            "/1579_1302_1084.mzXML"
 //            };
     static final String[] SPECTRA_FILES_LOADED = {
-            "/1579.mzXML", "/1579_1084.mzXML", "/1579_1302.mzXML",
-            "/1579_1302_1084.mzXML"
+            "/Man-7D3/1988.mzXML", "/Man-7D3/1988_1712.mzXML",
+            "/Man-7D3/1988_1712_667.mzXML", "/Man-7D3/1988_709.mzXML", 
+            "/Man-7D3/1988_667.mzXML", "/Man-7D3/1988_667_447.mzXML",
+            "/Man-7D3/1988_1084.mzXML", "/Man-7D3/1988_1084_839.mzXML"
     };
     
     /*static final String[] SPECTRA_FILES_LOADED = {

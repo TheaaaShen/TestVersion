@@ -121,12 +121,12 @@ public class BatchWork {
         //for(SPComponent spectrum : spList) {
             SPComponent spectrum = spList.get(sp_i);
             ArrayList<FragNode> candiStrucList = new ArrayList<FragNode>();
-            if (this.areCandidatesLoaded) {
+            if (this.areCandidatesLoaded) { // MS3+
                 // If the candidate structures are already gotten 
                 // by searching the structure library
                 candiStrucList = this.candiFragNodeList;
                 // candiStrucList=this.candiStrucHash.get(iterSP.getSpPreFileID());
-            } else {
+            } else { // MS2
                 // If the the candidate structures are not gotten, 
                 // search the structure library by M/Z of the parent iron.
                 // backup: iterSP.getPreMzList().get(0)
@@ -135,6 +135,8 @@ public class BatchWork {
                 candiStrucList = this.searchLib(spectrum.getPreMzList().get(0));
                 MyTimer.showTime("\tafter searching library");
                 this.areCandidatesLoaded = true;
+                // Initial sumInts list to all 0, this is only used for none-bayes model
+                initScoreModel(candiStrucList.size());
             }
             // If no candidate is found, it is an error
             if (candiStrucList == null) {
@@ -145,6 +147,9 @@ public class BatchWork {
             } else {
                 System.out.println("Number of candidates: " + candiStrucList.size());
             }
+            
+            // Initial sumInts list to all 0, this is only used for none-bayes model
+            
             
             // detect one cut or two cut, then search FragNode ??
             if(!checkSpectrum(spectrum)){
@@ -235,7 +240,7 @@ public class BatchWork {
             spComponentHash.put(spectrum.getSpFileID(), spectrum);
             previousSpectra.add(spectrum);
             this.writeOut(spectrum, outFolder);
-            
+            System.gc();
         } // End of for(SPComponent spectrum : spList)
     }
 
@@ -316,8 +321,8 @@ public class BatchWork {
         boolean noError = true;
         // gets all peaks from current spectrum
         Peak[] peaks = spectrum.getPeakArray(); // previous name expSP
-        // Every spectrum should exist at least 2 peaks,
-        // otherwise it is an error
+        // Every spectrum should exist at least 2 peaks.
+        // Otherwise(0 or 1 peak), it is an error.
         if (peaks == null || peaks.length < 2) {
             noError = false;
             System.out.println("spectrum is error(len < 2 or null):" 
@@ -336,6 +341,13 @@ public class BatchWork {
             if(candiPeakEntropyList.get(i)!=null){
                 candiPeakEntropyList.get(i).updateEntroy(preProbArray);
             }
+        }
+    }
+    
+    public void initScoreModel(int candiNum){
+        ScoreModel.sumInts = new double[candiNum];
+        for(int i = 0; i < candiNum; i++){
+            ScoreModel.sumInts[i] = 0.0;
         }
     }
     

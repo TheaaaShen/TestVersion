@@ -102,6 +102,7 @@ public class FetchFeature6 {
             PeakEntropyInfo peakEntropyInfo = this.countProbScore(iterCommPeak, candiIDList, candiCompareInfoList,
                     preProbArray, cutTime);
             MyTimer.showTime("In FetchFeature6:\t after countProbScore");
+            System.gc();
             /*
              * eEntropy=this.countExpectEntropy(probScoreArrayList); double
              * peakMz=FormatNum.DoubleFormat(iterCommPeak.getMZ(),3); double
