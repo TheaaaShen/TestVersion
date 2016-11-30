@@ -4,6 +4,7 @@ package tools;
 import java.util.ArrayList;
 
 import debug.MyTimer;
+import debug.Print;
 import spectrum.Peak;
 import util.DataFilter;
 import util.FragNode;
@@ -18,54 +19,6 @@ import util.SugarFragment;
  * Previous name FragMz2
  */
 public class FragMz {
-    
-    /**
-     * Cout theory sp.
-     *
-     * @param subStrucFragNodeList the sub struc frag node list
-     * @param cutTime the cut time
-     * @return the array list
-     */
-    //给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
-    private ArrayList<ArrayList<FragNode>> coutTheorySp(
-            ArrayList<ArrayList<FragNode>> subStrucFragNodeList, 
-            int cutTime) {
-        MyTimer.showTime("\t \t before new a new arraylist");
-        ArrayList<ArrayList<FragNode>> subStrucTheorySpPeakList = 
-                new ArrayList<ArrayList<FragNode>>();
-        
-        if(subStrucFragNodeList==null) {
-            return null;
-        }
-        
-        for (ArrayList<FragNode> iterList : subStrucFragNodeList) {
-            // MyTimer.showTime("\t \t before enumrate a sp for one substurc");
-            ArrayList<FragNode> theoryPeakNodeList=new ArrayList<FragNode>();
-            if(iterList==null) {
-                subStrucTheorySpPeakList.add(null);
-                continue;
-            }
-
-            for(FragNode iterNode:iterList) {
-                /*
-                 * @TheorySpList: add filter
-                 * @TheoryCutIonList: just cut segments,no filter
-                 */
-                ArrayList<FragNode> tmpPeakNodeList=iterNode.getCorrespondTheorySpList(cutTime);
-//                ArrayList<FragNode> tmpPeakNodeList=iterNode.getCorrespondTheoryCutIonList(cutTime);
-                
-                
-                if (tmpPeakNodeList != null) {
-                    theoryPeakNodeList.addAll(tmpPeakNodeList);
-                }
-            }
-            if(theoryPeakNodeList.size()>0) {
-                subStrucTheorySpPeakList.add(theoryPeakNodeList);
-            }
-            //MyTimer.showTime("\t \t end enumrate a sp for one substurc");
-        }
-        return subStrucTheorySpPeakList;
-    }
     
     /**
      * Execute count.
@@ -89,7 +42,7 @@ public class FragMz {
             
             MyTimer.showTime("\tbefore theory spectrum");
             // Enumerate all theoretic spectra: S_{i,j}
-            ArrayList<ArrayList<FragNode>> candiTheorySPList = countTheorySp(
+            ArrayList<ArrayList<FragNode>> candiTheorySPList = enumTheorySpForAllCandi(
                     candiStrucList, multiLevelMzList, spLevel, cutTime);
             if(candiTheorySPList==null) {
                 return null;
@@ -97,7 +50,6 @@ public class FragMz {
             MyTimer.showTime("\tafter theory specrum");
             // remove small peaks in the experimental spectrum ??
             expSPArray = spectrumFilter(expSPArray,filterRatio);
-            
             MyTimer.showTime("\tbefore scoring");
             // Calculate the scores of candidate structures
             ArrayList<CompareInfo> scoreInfoList = ScoreModel.
@@ -107,9 +59,9 @@ public class FragMz {
             MyTimer.showTime("\tbefore calculating DP");
             // Calculate the distinguishing power of all peaks 
             int peakLevel = spectrum.getSpLevel();
-//            ArrayList<PeakEntropyInfo> peakEntropyList = 
-//                    coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
-            ArrayList<PeakEntropyInfo> peakEntropyList=null;
+            ArrayList<PeakEntropyInfo> peakEntropyList = 
+                    coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
+//            ArrayList<PeakEntropyInfo> peakEntropyList=null;
             MyTimer.showTime("\tafter calculating DP");
             ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
             return tmpResult;
@@ -135,7 +87,7 @@ public class FragMz {
     }
 
     /**
-     * Count theory sp.
+     * 计算每个候选结构的理论谱
      *
      * @param candiStrucList the candi struc list
      * @param multiLevelMzList the multi level mz list
@@ -143,13 +95,67 @@ public class FragMz {
      * @param cutTime the cut time
      * @return the array list
      */
-    //计算理论谱
-    public ArrayList<ArrayList<FragNode>> countTheorySp(ArrayList<FragNode> candiStrucList,
-            ArrayList<Double> multiLevelMzList,int spLevel,int cutTime){
-        
-        return this.coutTheorySp(this.searchSpLevelNodeListWithMass(candiStrucList, multiLevelMzList, spLevel,cutTime),cutTime);
+    //计算每个候选结构的理论谱
+    public ArrayList<ArrayList<FragNode>> enumTheorySpForAllCandi(
+            ArrayList<FragNode> candiStrucList,
+            ArrayList<Double> multiLevelMzList, int spLevel, int cutTime){
+        ArrayList<ArrayList<FragNode>> subStrucFragNodeList = 
+                this.searchSpLevelNodeListWithMass(candiStrucList, 
+                        multiLevelMzList, spLevel, cutTime);
+        ArrayList<ArrayList<FragNode>> result = 
+                enumTheorySp(subStrucFragNodeList, cutTime);
+        return result;
     }
     
+    /**
+         * 给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
+         *
+         * @param subStrucFragNodeList the sub struc frag node list
+         * @param cutTime the cut time
+         * @return the array list
+         */
+        //给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
+        private ArrayList<ArrayList<FragNode>> enumTheorySp(
+                ArrayList<ArrayList<FragNode>> subStrucFragNodeList, 
+                int cutTime) {
+            MyTimer.showTime("\t \t before new a new arraylist");
+            ArrayList<ArrayList<FragNode>> subStrucTheorySpPeakList = 
+                    new ArrayList<ArrayList<FragNode>>();
+            
+            if(subStrucFragNodeList==null) {
+                return null;
+            }
+            
+            for (ArrayList<FragNode> iterList : subStrucFragNodeList) {
+                // MyTimer.showTime("\t \t before enumrate a sp for one substurc");
+                ArrayList<FragNode> theoryPeakNodeList = new ArrayList<FragNode>();
+                if(iterList==null) {
+                    subStrucTheorySpPeakList.add(theoryPeakNodeList);
+                    continue;
+                }
+    
+                for(FragNode iterNode:iterList) {
+                    /*
+                     * @TheorySpList: add filter
+                     * @TheoryCutIonList: just cut segments,no filter
+                     */
+                    ArrayList<FragNode> tmpPeakNodeList = 
+                            iterNode.getCorrespondTheorySpList(cutTime);
+    //                ArrayList<FragNode> tmpPeakNodeList=iterNode.getCorrespondTheoryCutIonList(cutTime);
+                    
+                    
+                    if (tmpPeakNodeList != null) {
+                        theoryPeakNodeList.addAll(tmpPeakNodeList);
+                    }
+                }
+                //if(theoryPeakNodeList.size()>0) {
+                subStrucTheorySpPeakList.add(theoryPeakNodeList);
+                //}
+                //MyTimer.showTime("\t \t end enumrate a sp for one substurc");
+            }
+            return subStrucTheorySpPeakList;
+        }
+
     /**
      * Cout theory sp N core 2 cut.
      *
@@ -178,7 +184,7 @@ public class FragMz {
             }
             ArrayList<FragNode> singleEleList=new ArrayList<FragNode>();
             singleEleList.add(tmpNode);
-            reList.addAll(this.coutTheorySp(
+            reList.addAll(this.enumTheorySp(
                             this.searchSpLevelNodeListWithMass(
                                 singleEleList, 
                                 multiLevelMzList, 

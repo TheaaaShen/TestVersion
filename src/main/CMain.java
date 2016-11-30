@@ -19,11 +19,13 @@ public class CMain {
     static final String SPECTRA_FILE_SUFFIX = ".mzXML";
     
     /** The name of the library file storing glycal structures */
-    static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + //"/filter_mass/filter-mass.1287.6304.txt"; 
-            "/standard_lib.txt";
+    static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + 
+            "/filter_mass/11_24.txt";
+            //"/RnaseB_lib.txt";
+            //"/standard_lib.txt";
     
     // Output folder
-    static final String OUT_FOLDER = HOME_DIR + "/result/";
+    static final String OUT_FOLDER = HOME_DIR + "/result";
     
     // Spectra that should be loaded
 //    static final String[] SPECTRA_FILES_LOADED = {
@@ -121,7 +123,7 @@ public class CMain {
             System.out.println("!dealing with folder: "+ dirName);
             spectra_files_directory = SPECTRA_DIR + "/" + dirName;
             FileUtil.mkDir(OUT_FOLDER, dirName);
-            outFolder = OUT_FOLDER + dirName + "/";
+            outFolder = OUT_FOLDER +"/" + dirName + "/";
             BatchWork batchwork=new BatchWork();
             
             // load spectra files (input files)

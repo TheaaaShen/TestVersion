@@ -355,7 +355,7 @@ public class BatchWork {
         try {
             String spFileID = iterSP.getSpFileID();
             BufferedWriter outfile = new BufferedWriter(
-                    new FileWriter(outFolder+spFileID+".txt"));
+                    new FileWriter(outFolder + "/" + spFileID + ".txt"));
     
             ArrayList<PeakEntropyInfo> peakEntropyList = 
                         this.entropyListHash.get(spFileID);

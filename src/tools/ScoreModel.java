@@ -210,24 +210,26 @@ public class ScoreModel {
             double[] preScoreArray,double WIN) {
         double P=0.75;
         ArrayList<CompareInfo> candiSpMatchList=new ArrayList<CompareInfo>();
-        for(int i=0;i<candiSpList.size();i++) {
+        for(int i=0;i < candiSpList.size();i++) {
             ArrayList<FragNode> theorySpPeakList = candiSpList.get(i);
             if(theorySpPeakList==null) {
-                candiSpMatchList.add(null);    
-            }else {
-                ArrayList<PeakInfo> matchedPeakList = theroExpSpMatch2(
-                        theorySpPeakList,expSpData,WIN);
-                // debug code: to get the matched peaks
-                Print.pl("Matched peaks of candidate " + i + " :");
-                for(PeakInfo peak: matchedPeakList){
-                    Print.pl("\t" + peak.getPeakMz());
-                }
-                CompareInfo matchResult=new CompareInfo();
-                matchResult.setCandiID(String.valueOf(i));
-                matchResult.setMatchPeakList(matchedPeakList);
-            
-                candiSpMatchList.add(matchResult);
+                System.out.println("theorySpPeakList is null for candidate " + i +"!");
+                //candiSpMatchList.add(null);
+                theorySpPeakList = new ArrayList<FragNode>();
             }
+            ArrayList<PeakInfo> matchedPeakList = theroExpSpMatch2(
+                    theorySpPeakList,expSpData,WIN);
+            // debug code: to get the matched peaks
+            Print.pl("Matched peaks of candidate " + i + " :");
+            for(PeakInfo peak: matchedPeakList){
+                Print.pl("\t" + peak.getPeakMz());
+            }
+            CompareInfo matchResult=new CompareInfo();
+            matchResult.setCandiID(String.valueOf(i));
+            matchResult.setMatchPeakList(matchedPeakList);
+        
+            candiSpMatchList.add(matchResult);
+            
         }
         
         int unionMatchedNum=getUnionMatchedPeakNum(candiSpMatchList);
@@ -261,7 +263,7 @@ public class ScoreModel {
             candiSpMatchList.get(k).setScore(normalizedScore);
 //            System.out.println("Prob. :"+normalizedScore);
             candiSpMatchList.get(k).setScoreInfoStr(
-                    candiSpMatchList.get(k).candiStrucID + "\t" 
+                    candiSpMatchList.get(k).candiStrucID + "\t"
                     + normalizedScore + "\t" 
                     + candiSpMatchList.get(k).getScoreInfoStr());
             }
