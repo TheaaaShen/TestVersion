@@ -208,6 +208,15 @@ public class ScoreModel {
     public static ArrayList<CompareInfo> scoreA(
             ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,
             double[] preScoreArray,double WIN) {
+        for(int i = 0;i < candiSpList.size(); i++){
+            ArrayList<FragNode> spectrum = candiSpList.get(i);
+            // This part servers to print the
+            Print.pl("candiSpList[" + i + "]: theoretical SP: " + 
+                    spectrum.size());
+            for(FragNode f: spectrum){
+                Print.pl("\t" + f.getSubtreeMass());
+            }
+        }
         double P=0.75;
         ArrayList<CompareInfo> candiSpMatchList=new ArrayList<CompareInfo>();
         for(int i=0;i < candiSpList.size();i++) {

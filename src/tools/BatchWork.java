@@ -12,6 +12,7 @@ import org.eurocarbdb.MolecularFramework.io.SugarImporterFactory;
 import org.eurocarbdb.MolecularFramework.sugar.Sugar;
 
 import debug.MyTimer;
+import main.CMain;
 import spectrum.Peak;
 import util.ConvertSugar;
 import util.FragNode;
@@ -262,7 +263,9 @@ public class BatchWork {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        spList.sort(new SPComponentComparator());
+        if(CMain.sort_spectra){
+            spList.sort(new SPComponentComparator());
+        }
     }
 
     /**

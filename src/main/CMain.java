@@ -4,6 +4,7 @@ package main;
 import java.util.ArrayList;
 
 import debug.MyTimer;
+import debug.Print;
 import file.util.FileUtil;
 import tools.BatchWork;
 
@@ -20,7 +21,8 @@ public class CMain {
     
     /** The name of the library file storing glycal structures */
     static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + 
-            "/filter_mass/11_24.txt";
+            "/filter_mass/filter-mass.1053.5201.txt";
+            //"/RnaseB_lib_only_high_man.txt";
             //"/RnaseB_lib.txt";
             //"/standard_lib.txt";
     
@@ -33,16 +35,18 @@ public class CMain {
 //            "/1579_1302_1084.mzXML"
 //            };
     static final String[] SPECTRA_FILES_LOADED = {
-            "/Man-7D3/1988.mzXML", "/Man-7D3/1988_1712.mzXML",
-            "/Man-7D3/1988_1712_667.mzXML", "/Man-7D3/1988_709.mzXML", 
-            "/Man-7D3/1988_667.mzXML", "/Man-7D3/1988_667_447.mzXML",
-            "/Man-7D3/1988_1084.mzXML", "/Man-7D3/1988_1084_839.mzXML"
+            "/1987_12_7_new/1988.mzXML", //"/1987_12_7_new/1988_1492.mzXML",
+            //"/1987_12_7_new/1988_1043.mzXML"//, "/Man-7D3/1988_709.mzXML", 
+//            "/Man-7D3/1988_667.mzXML", "/Man-7D3/1988_667_447.mzXML",
+//            "/Man-7D3/1988_1084.mzXML", "/Man-7D3/1988_1084_839.mzXML"
     };
     
     /*static final String[] SPECTRA_FILES_LOADED = {
             "/2151.mzXML"
     };*/
     
+    static final double filterRatio = 0.01; // 过滤< maxInten * filterRatio
+    public static final boolean sort_spectra = true;
     
 //    /**
 //     * publication version
@@ -80,14 +84,14 @@ public class CMain {
         int cutTime=3; // 碎裂次数
         double WIN=0.6; // 搜索窗口，匹配peak与peak的容差
         // 正常是0.3，由于仪器校准，所以0.6
-        double filterRatio=0.01; // 过滤< maxInten * filterRatio
+        //double filterRatio=0.01; // 过滤< maxInten * filterRatio
         
         MyTimer.setStart();
         
         // load structure library (static)
         BatchWork.loadStrucLib(STRUCTURE_LIBRARY_FILE);
         
-        BatchWork batchwork=new BatchWork();
+        BatchWork batchwork = new BatchWork();
         
         // load spectra files (input files)
         ArrayList<String> spectraFilePaths = new ArrayList<String>();
@@ -109,7 +113,7 @@ public class CMain {
         int cutTime=3; // 碎裂次数
         double WIN=0.6; // 搜索窗口，匹配peak与peak的容差
         // 正常是0.3，由于仪器校准，所以0.6
-        double filterRatio=0.01; // 过滤< maxInten * filterRatio
+        //double filterRatio=0.05; // 过滤< maxInten * filterRatio
         
         MyTimer.setStart();
         
@@ -120,11 +124,11 @@ public class CMain {
         String spectra_files_directory;
         String outFolder;
         for(String dirName: dirNames){
-            System.out.println("!dealing with folder: "+ dirName);
+            Print.pl("!dealing with folder: "+ dirName);
             spectra_files_directory = SPECTRA_DIR + "/" + dirName;
             FileUtil.mkDir(OUT_FOLDER, dirName);
             outFolder = OUT_FOLDER +"/" + dirName + "/";
-            BatchWork batchwork=new BatchWork();
+            BatchWork batchwork = new BatchWork();
             
             // load spectra files (input files)
             ArrayList<String> spectraFilePaths;

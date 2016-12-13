@@ -34,38 +34,38 @@ public class FragMz {
      * @return the score entropy result
      */
     public ScoreEntropyResult executeCount(ArrayList<FragNode> candiStrucList,
-            SPComponent spectrum, ArrayList<Double> multiLevelMzList,// Mz list!
-            int cutTime,int spLevel,double WIN,
-            double[] preProbArray,double filterRatio){
-            // Get all peaks 这个是指实验谱
-            Peak[] expSPArray = spectrum.getPeakArray();
-            
-            MyTimer.showTime("\tbefore theory spectrum");
-            // Enumerate all theoretic spectra: S_{i,j}
-            ArrayList<ArrayList<FragNode>> candiTheorySPList = enumTheorySpForAllCandi(
-                    candiStrucList, multiLevelMzList, spLevel, cutTime);
-            if(candiTheorySPList==null) {
-                return null;
-            }
-            MyTimer.showTime("\tafter theory specrum");
-            // remove small peaks in the experimental spectrum ??
-            expSPArray = spectrumFilter(expSPArray,filterRatio);
-            MyTimer.showTime("\tbefore scoring");
-            // Calculate the scores of candidate structures
-            ArrayList<CompareInfo> scoreInfoList = ScoreModel.
-                    score(candiTheorySPList, expSPArray, preProbArray, WIN);
-            MyTimer.showTime("\tafter scoring");
-            
-            MyTimer.showTime("\tbefore calculating DP");
-            // Calculate the distinguishing power of all peaks 
-            int peakLevel = spectrum.getSpLevel();
-            ArrayList<PeakEntropyInfo> peakEntropyList = 
-                    coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
+        SPComponent spectrum, ArrayList<Double> multiLevelMzList,// Mz list!
+        int cutTime,int spLevel,double WIN,
+        double[] preProbArray,double filterRatio){
+        // Get all peaks 这个是指实验谱
+        Peak[] expSPArray = spectrum.getPeakArray();
+        
+        MyTimer.showTime("\tbefore theory spectrum");
+        // Enumerate all theoretic spectra: S_{i,j}
+        ArrayList<ArrayList<FragNode>> candiTheorySPList = enumTheorySpForAllCandi(
+                candiStrucList, multiLevelMzList, spLevel, cutTime);
+        if(candiTheorySPList==null) {
+            return null;
+        }
+        MyTimer.showTime("\tafter theory specrum");
+        // remove small peaks in the experimental spectrum ??
+        expSPArray = spectrumFilter(expSPArray,filterRatio);
+        MyTimer.showTime("\tbefore scoring");
+        // Calculate the scores of candidate structures
+        ArrayList<CompareInfo> scoreInfoList = ScoreModel.
+                score(candiTheorySPList, expSPArray, preProbArray, WIN);
+        MyTimer.showTime("\tafter scoring");
+        
+        MyTimer.showTime("\tbefore calculating DP");
+        // Calculate the distinguishing power of all peaks 
+        int peakLevel = spectrum.getSpLevel();
+        ArrayList<PeakEntropyInfo> peakEntropyList = 
+                coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
 //            ArrayList<PeakEntropyInfo> peakEntropyList=null;
-            MyTimer.showTime("\tafter calculating DP");
-            ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
-            return tmpResult;
-    
+        MyTimer.showTime("\tafter calculating DP");
+        ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
+        return tmpResult;
+
         }
     
     /**
@@ -102,59 +102,62 @@ public class FragMz {
         ArrayList<ArrayList<FragNode>> subStrucFragNodeList = 
                 this.searchSpLevelNodeListWithMass(candiStrucList, 
                         multiLevelMzList, spLevel, cutTime);
+//        for(ArrayList<FragNode> fl: subStrucFragNodeList){
+//            Print.pl("subStrucFragNodeList[i]: " + fl.size());
+//        }
         ArrayList<ArrayList<FragNode>> result = 
                 enumTheorySp(subStrucFragNodeList, cutTime);
         return result;
     }
     
     /**
-         * 给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
-         *
-         * @param subStrucFragNodeList the sub struc frag node list
-         * @param cutTime the cut time
-         * @return the array list
-         */
-        //给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
-        private ArrayList<ArrayList<FragNode>> enumTheorySp(
-                ArrayList<ArrayList<FragNode>> subStrucFragNodeList, 
-                int cutTime) {
-            MyTimer.showTime("\t \t before new a new arraylist");
-            ArrayList<ArrayList<FragNode>> subStrucTheorySpPeakList = 
-                    new ArrayList<ArrayList<FragNode>>();
-            
-            if(subStrucFragNodeList==null) {
-                return null;
-            }
-            
-            for (ArrayList<FragNode> iterList : subStrucFragNodeList) {
-                // MyTimer.showTime("\t \t before enumrate a sp for one substurc");
-                ArrayList<FragNode> theoryPeakNodeList = new ArrayList<FragNode>();
-                if(iterList==null) {
-                    subStrucTheorySpPeakList.add(theoryPeakNodeList);
-                    continue;
-                }
-    
-                for(FragNode iterNode:iterList) {
-                    /*
-                     * @TheorySpList: add filter
-                     * @TheoryCutIonList: just cut segments,no filter
-                     */
-                    ArrayList<FragNode> tmpPeakNodeList = 
-                            iterNode.getCorrespondTheorySpList(cutTime);
-    //                ArrayList<FragNode> tmpPeakNodeList=iterNode.getCorrespondTheoryCutIonList(cutTime);
-                    
-                    
-                    if (tmpPeakNodeList != null) {
-                        theoryPeakNodeList.addAll(tmpPeakNodeList);
-                    }
-                }
-                //if(theoryPeakNodeList.size()>0) {
-                subStrucTheorySpPeakList.add(theoryPeakNodeList);
-                //}
-                //MyTimer.showTime("\t \t end enumrate a sp for one substurc");
-            }
-            return subStrucTheorySpPeakList;
+     * 给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
+     *
+     * @param subStrucFragNodeList the sub struc frag node list
+     * @param cutTime the cut time
+     * @return the array list
+     */
+    //给定子树根节点,即候选结构子结构List，计算最多发生cutTime次断裂后形成的理论谱
+    private ArrayList<ArrayList<FragNode>> enumTheorySp(
+            ArrayList<ArrayList<FragNode>> subStrucFragNodeList, 
+            int cutTime) {
+        MyTimer.showTime("\t \t before new a new arraylist");
+        ArrayList<ArrayList<FragNode>> subStrucTheorySpPeakList = 
+                new ArrayList<ArrayList<FragNode>>();
+        
+        if(subStrucFragNodeList==null) {
+            return null;
         }
+        
+        for (ArrayList<FragNode> iterList : subStrucFragNodeList) {
+            // MyTimer.showTime("\t \t before enumrate a sp for one substurc");
+            ArrayList<FragNode> theoryPeakNodeList = new ArrayList<FragNode>();
+            if(iterList==null) {
+                subStrucTheorySpPeakList.add(theoryPeakNodeList);
+                continue;
+            }
+
+            for(FragNode iterNode:iterList) {
+                /*
+                 * @TheorySpList: add filter
+                 * @TheoryCutIonList: just cut segments,no filter
+                 */
+                ArrayList<FragNode> tmpPeakNodeList = 
+                        iterNode.getCorrespondTheorySpList(cutTime);
+//                ArrayList<FragNode> tmpPeakNodeList=iterNode.getCorrespondTheoryCutIonList(cutTime);
+                
+                
+                if (tmpPeakNodeList != null) {
+                    theoryPeakNodeList.addAll(tmpPeakNodeList);
+                }
+            }
+            //if(theoryPeakNodeList.size()>0) {
+            subStrucTheorySpPeakList.add(theoryPeakNodeList);
+            //}
+            //MyTimer.showTime("\t \t end enumrate a sp for one substurc");
+        }
+        return subStrucTheorySpPeakList;
+    }
 
     /**
      * Cout theory sp N core 2 cut.
@@ -198,7 +201,7 @@ public class FragMz {
     }
 
     /**
-         * Search sp level node list with mass.
+         * 寻找第spLevel级谱对应的子树根节点
          *
          * @param candiStrucList the candi struc list
          * @param multiLevelMzList the multi level mz list
