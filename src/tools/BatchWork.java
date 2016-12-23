@@ -136,7 +136,7 @@ public class BatchWork {
                 candiStrucList = this.searchLib(spectrum.getPreMzList().get(0));
                 MyTimer.showTime("\tafter searching library");
                 this.areCandidatesLoaded = true;
-                // Initial sumInts list to all 0, this is only used for none-bayes model
+                // Initial sumInts list to all 0, this is only used for none-bayesian model
                 initScoreModel(candiStrucList.size());
             }
             // If no candidate is found, it is an error
@@ -241,6 +241,10 @@ public class BatchWork {
             spComponentHash.put(spectrum.getSpFileID(), spectrum);
             previousSpectra.add(spectrum);
             this.writeOut(spectrum, outFolder);
+            if(CMain.write_final_result){
+                writeOutFinal(spectrum, outFolder,"!final_result");
+            }
+            
             System.gc();
         } // End of for(SPComponent spectrum : spList)
     }
@@ -353,7 +357,23 @@ public class BatchWork {
             ScoreModel.sumInts[i] = 0.0;
         }
     }
+    public void writeOutFinal(SPComponent iterSP,String outFolder, String fileName) {
+        try {
+            String spFileID = iterSP.getSpFileID();
+            BufferedWriter outfile = new BufferedWriter(
+                    new FileWriter(outFolder + "/" + fileName + ".txt"));
     
+            ArrayList<PeakEntropyInfo> peakEntropyList = 
+                        this.entropyListHash.get(spFileID);
+                
+            writeBuffer2(outfile, iterSP,peakEntropyList);
+            outfile.flush();
+            outfile.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+    }
     public void writeOut(SPComponent iterSP,String outFolder) {
         try {
             String spFileID = iterSP.getSpFileID();

@@ -1,6 +1,9 @@
 package main;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import debug.MyTimer;
@@ -41,9 +44,13 @@ public class CMain {
             "/2151.mzXML"
     };*/
     
-    static final double filterRatio = 0.01; // ¹ýÂË< maxInten * filterRatio
+    static final double filterRatio = 0.01; // filtering < maxInten * filterRatio
     public static final boolean sort_spectra = true;
     public static final boolean compute_DP = false;
+    public static final boolean write_final_result = true;
+    public static final boolean redirect_program_output = true;
+    public static final String redirect_output_file = 
+                                HOME_DIR + "/result/output.txt";
     
 //    /**
 //     * publication version
@@ -113,6 +120,15 @@ public class CMain {
         //double filterRatio=0.05; // ¹ýÂË< maxInten * filterRatio
         
         MyTimer.setStart();
+        if(redirect_program_output){
+            try {
+                PrintStream ps = new PrintStream(new FileOutputStream(redirect_output_file));
+                System.setOut(ps); 
+            } catch (FileNotFoundException e) {
+                Print.pl("Redirecting output to file enters an error.");
+                e.printStackTrace();
+            }  
+        }
         
         // load structure library (static)
         BatchWork.loadStrucLib(STRUCTURE_LIBRARY_FILE);

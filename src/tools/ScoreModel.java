@@ -23,8 +23,8 @@ public class ScoreModel {
             ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,
             double[] preScoreArray,double WIN) {
         return 
-                //scoreSumLogInts(
-                scoreA(
+                scoreSumLogInts(
+                //scoreA(
                 candiSpList, expSpData, preScoreArray, WIN);
     }
     
