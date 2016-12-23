@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import debug.MyTimer;
 import debug.Print;
+import main.CMain;
 import spectrum.Peak;
 import util.DataFilter;
 import util.FragNode;
@@ -59,9 +60,12 @@ public class FragMz {
         MyTimer.showTime("\tbefore calculating DP");
         // Calculate the distinguishing power of all peaks 
         int peakLevel = spectrum.getSpLevel();
-        ArrayList<PeakEntropyInfo> peakEntropyList = 
-                coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
-//            ArrayList<PeakEntropyInfo> peakEntropyList=null;
+        
+        ArrayList<PeakEntropyInfo> peakEntropyList = null;// if not compute DP
+        if(CMain.compute_DP){
+            peakEntropyList = coutNextStagePeak(expSPArray, scoreInfoList,
+                                                1, peakLevel);
+        }
         MyTimer.showTime("\tafter calculating DP");
         ScoreEntropyResult tmpResult=new ScoreEntropyResult(scoreInfoList,peakEntropyList);
         return tmpResult;

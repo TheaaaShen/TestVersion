@@ -21,19 +21,15 @@ public class CMain {
     
     /** The name of the library file storing glycal structures */
     static final String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + 
-            "/filter_mass/filter-mass.1053.5201.txt";
+            //"/filter_mass/filter-mass.1053.5201.txt";
             //"/RnaseB_lib_only_high_man.txt";
-            //"/RnaseB_lib.txt";
-            //"/standard_lib.txt";
+            //"/lib_HMO.txt";
+            "/lib_top5_new.txt";
     
     // Output folder
     static final String OUT_FOLDER = HOME_DIR + "/result";
     
     // Spectra that should be loaded
-//    static final String[] SPECTRA_FILES_LOADED = {
-//            "/1579.mzXML", "/1579_1084.mzXML", "/1579_1302.mzXML", 
-//            "/1579_1302_1084.mzXML"
-//            };
     static final String[] SPECTRA_FILES_LOADED = {
             "/1987_12_7_new/1988.mzXML", //"/1987_12_7_new/1988_1492.mzXML",
             //"/1987_12_7_new/1988_1043.mzXML"//, "/Man-7D3/1988_709.mzXML", 
@@ -47,6 +43,7 @@ public class CMain {
     
     static final double filterRatio = 0.01; // ¹ýÂË< maxInten * filterRatio
     public static final boolean sort_spectra = true;
+    public static final boolean compute_DP = false;
     
 //    /**
 //     * publication version
