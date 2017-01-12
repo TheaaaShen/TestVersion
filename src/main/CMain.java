@@ -34,8 +34,9 @@ public class CMain {
     
     // Spectra that should be loaded
     static final String[] SPECTRA_FILES_LOADED = {
-            "/1987_12_7_new/1988.mzXML", //"/1987_12_7_new/1988_1492.mzXML",
-            //"/1987_12_7_new/1988_1043.mzXML"//, "/Man-7D3/1988_709.mzXML", 
+            "/HMO_1549/1549.mzXML", "/HMO_1549/1549_1086.mzXML",
+            "/HMO_1549/1549_486.mzXML", "/HMO_1549/1549_660.mzXML", 
+            "/HMO_1549/1549_880.mzXML", 
 //            "/Man-7D3/1988_667.mzXML", "/Man-7D3/1988_667_447.mzXML",
 //            "/Man-7D3/1988_1084.mzXML", "/Man-7D3/1988_1084_839.mzXML"
     };
@@ -47,43 +48,38 @@ public class CMain {
     static final double filterRatio = 0.01; // filtering < maxInten * filterRatio
     public static final boolean sort_spectra = true;
     public static final boolean compute_DP = false;
+    // write a !final_result.txt in order to get the final result
     public static final boolean write_final_result = true;
-    public static final boolean redirect_program_output = true;
+    // redirect the program's standard output to a specific file 
+    public static final boolean redirect_program_output = false;
     public static final String redirect_output_file = 
                                 HOME_DIR + "/result/output.txt";
-    
-//    /**
-//     * publication version
-//     *
-//     * @param args the arguments
-//     */
-//    public static void main(String[] args)
-//    {
-//        
-//        int cutTime=3;
-//        double WIN=0.6;
-//        double filterRatio=0.01;
-////        filterRatio=Double.parseDouble(args[0]);
-//        String  strucLib=args[0];
-//        String outFolder=args[1];
-//        BatchWork.loadStrucLib(strucLib);
-//        BatchWork test=new BatchWork();
-//        ArrayList<String> fileList=new ArrayList<String>();
-//        for(int i=2;i<args.length;i++)
-//        {
-//            fileList.add(args[i]);
-//        }
-//        test.batchWork(strucLib, fileList, cutTime, WIN, filterRatio,OUT_FOLDER);
-//        
-//    }
-    
-    
+    // whether compute all sub folders or just a few spectra defined 
+    // in SPECTRA_FILES_LOADED
+    public static final boolean batch_version = true;
+        
     /**
      * <p>testing version of main function.
      *
      * @param args currently not used
      */
-    /*public static void main(String[] args){
+    public static void main(String[] args){
+        if(redirect_program_output){
+            try {
+                PrintStream ps = new PrintStream(new FileOutputStream(redirect_output_file));
+                System.setOut(ps); 
+            } catch (FileNotFoundException e) {
+                Print.pl("Redirecting output to file enters an error.");
+                e.printStackTrace();
+            }  
+        }
+        if(batch_version){
+            mainBatch(args);
+        } else {
+            mainSingle(args);
+        }
+    }
+    public static void mainSingle(String[] args){
         
         int cutTime=3; // 碎裂次数
         double WIN=0.6; // 搜索窗口，匹配peak与peak的容差
@@ -110,9 +106,9 @@ public class CMain {
         batchwork.batchWork(spectraFilePaths, cutTime, WIN, filterRatio, OUT_FOLDER);
         //batchwork.writeOut2(outFolder);
         MyTimer.showTime("end of program");
-    }*/
+    }
     
-    public static void main(String[] args){// batched version
+    public static void mainBatch(String[] args){// batched version
         
         int cutTime=3; // 碎裂次数
         double WIN=0.6; // 搜索窗口，匹配peak与peak的容差
@@ -120,15 +116,6 @@ public class CMain {
         //double filterRatio=0.05; // 过滤< maxInten * filterRatio
         
         MyTimer.setStart();
-        if(redirect_program_output){
-            try {
-                PrintStream ps = new PrintStream(new FileOutputStream(redirect_output_file));
-                System.setOut(ps); 
-            } catch (FileNotFoundException e) {
-                Print.pl("Redirecting output to file enters an error.");
-                e.printStackTrace();
-            }  
-        }
         
         // load structure library (static)
         BatchWork.loadStrucLib(STRUCTURE_LIBRARY_FILE);
@@ -155,4 +142,29 @@ public class CMain {
         }
     }
     // SP = spectra
+    
+//  /**
+//  * publication version
+//  *
+//  * @param args the arguments
+//  */
+// public static void main(String[] args)
+// {
+//     
+//     int cutTime=3;
+//     double WIN=0.6;
+//     double filterRatio=0.01;
+////     filterRatio=Double.parseDouble(args[0]);
+//     String  strucLib=args[0];
+//     String outFolder=args[1];
+//     BatchWork.loadStrucLib(strucLib);
+//     BatchWork test=new BatchWork();
+//     ArrayList<String> fileList=new ArrayList<String>();
+//     for(int i=2;i<args.length;i++)
+//     {
+//         fileList.add(args[i]);
+//     }
+//     test.batchWork(strucLib, fileList, cutTime, WIN, filterRatio,OUT_FOLDER);
+//     
+// }
 }

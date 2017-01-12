@@ -28,11 +28,14 @@ public class Peak {
     /** The M/Z. */
     double mz=0;
     
-    /** The Intensity. */
+    /** The Intensity(not necessarily the absolute one). */
     double Intensity=0;
     
     /** The relative intensity. */
     double relativeIntens=-10;
+    
+    /** The absolute intensity. */
+    double absoluteIntens = 0;
     
     /** The mz offset. ?? */
     double mzOffset=10;
@@ -109,6 +112,13 @@ public class Peak {
         return this.relativeIntens;
     }
     
+    public void setAbsoluteIntens(double intens){
+        this.absoluteIntens=intens;
+    }
+    
+    public double getAbsoluteIntens(){
+        return this.absoluteIntens;
+    }
     /**
      * Sets the mz offset.
      *

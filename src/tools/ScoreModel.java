@@ -23,6 +23,7 @@ public class ScoreModel {
             ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,
             double[] preScoreArray,double WIN) {
         return 
+                //scoreSumNPlusLogInts(
                 scoreSumLogInts(
                 //scoreA(
                 candiSpList, expSpData, preScoreArray, WIN);
@@ -141,12 +142,16 @@ public class ScoreModel {
             // System.out.println(theorMz+"\t"+iterTheor.getIonTypeNote()+"\t"+iterTheor.getStrucID());
             double tmpMz = 0;
             double tmpIntens = 0;
+            double tmpRelativeInts = 0;
+            double tmpAbsoluteInts = 0;
             for(Peak iterExpPeak : expSpData) {
                 double expMz = iterExpPeak.getMz();
 
                 if(Math.abs(expMz - theorMz) < WIN) {
                     if(iterExpPeak.getIntensity() > tmpIntens) {
                         tmpIntens = iterExpPeak.getIntensity();
+                        tmpRelativeInts = iterExpPeak.getRelativeIntens();
+                        tmpAbsoluteInts = iterExpPeak.getAbsoluteIntens();
                         tmpMz = expMz;
                     }
                 } else if(expMz - theorMz > WIN) {
@@ -158,6 +163,8 @@ public class ScoreModel {
                 mzList.add(tmpMz);
                 iterInfo.setPeakMz(tmpMz);
                 iterInfo.setPeakIntens(tmpIntens);
+                iterInfo.setPeakRelativeIntens(tmpRelativeInts);
+                iterInfo.setPeakAbsoluteIntens(tmpAbsoluteInts);
                 matchPeakList.add(iterInfo);
             }
 
@@ -301,7 +308,9 @@ public class ScoreModel {
                 // debug code: to get the matched peaks
                 Print.pl("Matched peaks of candidate " + i + " :");
                 for(PeakInfo peak: matchedPeakList){
-                    Print.pl("\t" + peak.getPeakMz() + "\tInts: " + peak.getPeakMz());
+                    Print.pl("\t" + peak.getPeakMz() + 
+                            "\tAbsInts: " + peak.getAbsoluteIntens() + 
+                            "\tRelativeInts: " + peak.getRelativeIntens());
                 }
                 CompareInfo matchResult = new CompareInfo();
                 matchResult.setCandiID(String.valueOf(i));
@@ -322,7 +331,7 @@ public class ScoreModel {
                 ArrayList<PeakInfo> matchedPeaks=tmpInfo.getMatchPeakList();
                 double probScore = 0;
                 for(PeakInfo peak: matchedPeaks){
-                    double s = Math.log(peak.getPeakIntens());
+                    double s = Math.log(peak.getAbsoluteIntens());
                     probScore += s;
                 }
 //                Print.pl("candiSpMatchList.size():" + candiSpMatchList.size()+ "\tj:"+j);
@@ -350,6 +359,84 @@ public class ScoreModel {
             double normalizedScore = candiSpMatchList.get(k).getScore() / sumScore;
             candiSpMatchList.get(k).setScore(normalizedScore);
 //            System.out.println("Prob. :"+normalizedScore);
+            candiSpMatchList.get(k).setScoreInfoStr(
+                    candiSpMatchList.get(k).candiStrucID + "\t" 
+                    + normalizedScore + "\t" 
+                    + candiSpMatchList.get(k).getScoreInfoStr());
+            }
+        }
+        return candiSpMatchList;
+        
+    }
+    public static ArrayList<CompareInfo> scoreSumNPlusLogInts(
+            ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,
+        double[] preScoreArray,double WIN) {
+        double alpha = 1;
+        // make all preScore to uniform
+        for(int i = 0; i< preScoreArray.length; i++){
+            preScoreArray[i] = 1.0 / preScoreArray.length;
+        }
+        
+        ArrayList<CompareInfo> candiSpMatchList=new ArrayList<CompareInfo>();
+        for(int i=0;i<candiSpList.size();i++) {
+            ArrayList<FragNode> theorySpPeakList=candiSpList.get(i);
+            if(theorySpPeakList==null) {
+                candiSpMatchList.add(null);    
+            }else {
+                ArrayList<PeakInfo> matchedPeakList = theroExpSpMatch2(
+                        theorySpPeakList,expSpData,WIN);
+                // debug code: to get the matched peaks
+                Print.pl("Matched peaks of candidate " + i + " :");
+                for(PeakInfo peak: matchedPeakList){
+                    Print.pl("\t" + peak.getPeakMz() + "\tInts: " + peak.getPeakMz());
+                }
+                CompareInfo matchResult = new CompareInfo();
+                matchResult.setCandiID(String.valueOf(i));
+                matchResult.setMatchPeakList(matchedPeakList);
+            
+                candiSpMatchList.add(matchResult);
+            }
+        }
+        
+        double sumScore=0; // for normalizing the scores
+        int unionMatchedNum = 0; // This variable is not used!
+        for(int j = 0; j < candiSpMatchList.size(); j++) {
+            CompareInfo tmpInfo=candiSpMatchList.get(j);
+            if(tmpInfo==null) {
+                continue;
+            }else {
+                int matchNum=tmpInfo.getMatchPeakList().size();
+                ArrayList<PeakInfo> matchedPeaks=tmpInfo.getMatchPeakList();
+                double probScore = 0;
+                for(PeakInfo peak: matchedPeaks){
+                    double s = alpha + Math.log(peak.getPeakIntens());
+                    probScore += s;
+                }
+    //            Print.pl("candiSpMatchList.size():" + candiSpMatchList.size()+ "\tj:"+j);
+                sumInts[j] += probScore;
+                probScore = sumInts[j];
+                Print.pl("preScoreArray == null? " + (preScoreArray == null));
+                String infoStr = matchNum + "\t" + sumInts[j] + "\t" 
+                        + expSpData.length + "\t" + probScore + "\t" 
+                        + preScoreArray[j];
+                
+                System.out.println(j + "\t"+infoStr);
+                System.out.println(probScore+"\t"+preScoreArray[j]);
+                probScore = probScore * preScoreArray[j];
+            
+                candiSpMatchList.get(j).setScore(probScore);
+                candiSpMatchList.get(j).setMatchedNum(matchNum);
+                candiSpMatchList.get(j).setUnionMatchedNum((int)sumInts[j]);
+                candiSpMatchList.get(j).setScoreInfoStr(infoStr);
+                sumScore = sumScore + probScore;
+            }
+        }
+        // normalize the scores
+        for(int k=0;k<candiSpMatchList.size();k++) {
+            if(candiSpMatchList.get(k)!=null) {
+            double normalizedScore = candiSpMatchList.get(k).getScore() / sumScore;
+            candiSpMatchList.get(k).setScore(normalizedScore);
+    //        System.out.println("Prob. :"+normalizedScore);
             candiSpMatchList.get(k).setScoreInfoStr(
                     candiSpMatchList.get(k).candiStrucID + "\t" 
                     + normalizedScore + "\t" 
@@ -819,9 +906,9 @@ public class ScoreModel {
         return sumIntens / matchPeakList.get(0).getSumIntens();
     }
 
-    public static void main(String[] args)
-    {
-        
-    }
+//    public static void main(String[] args)
+//    {
+//        
+//    }
 
 }

@@ -3,6 +3,7 @@ package util;
 import java.io.File;
 import java.util.ArrayList;
 
+import debug.Print;
 import spectrum.Peak;
 
 // TODO: Auto-generated Javadoc
@@ -43,6 +44,7 @@ public class SPComponent {
      */
     public SPComponent(File file) {
         peakArray = loadSp(file.getAbsolutePath());
+        setRelativeAndAbsoluteInts(peakArray);
         spFileID = file.getName().split("\\.")[0];
         String[] splits = spFileID.split("_");
         spLevel = splits.length + 1;
@@ -69,12 +71,38 @@ public class SPComponent {
         Peak[] expIonArray=null;
         try{
             MzXMLReader mzxmlReader=new MzXMLReader();
+            //Print.pl("debug!");
             mzxmlReader.init(spFile);
-            expIonArray=mzxmlReader.get_peak_list();
+            //Print.pl("debug!!");
+            expIonArray = mzxmlReader.get_peak_list();
+            //Print.pl("debug!!!");
         }catch(Exception e){
+            Print.pl("load peaks error!(in SPComponent:loadSp)");
             e.printStackTrace();
         }
         return expIonArray;
+    }
+    
+    private void setRelativeAndAbsoluteInts(Peak[] peaks){
+//        if(peaks == null){
+//            return;
+//        }
+        double maxInts = 0;
+        for(Peak p: peaks){
+            if(p != null){
+                //Print.pl("Peak: "+ p);
+                if(p.getIntensity() > maxInts){
+                    maxInts = p.getIntensity();
+                }
+            }
+        }
+        for(Peak p: peaks){
+            if(p != null){
+                p.setAbsoluteIntens(p.getIntensity());
+                p.setRelativeIntens(p.getIntensity() / maxInts * 100);
+        
+            }
+        }
     }
     
     /**

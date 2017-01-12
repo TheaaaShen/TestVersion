@@ -12,6 +12,7 @@ import org.eurocarbdb.MolecularFramework.io.SugarImporterFactory;
 import org.eurocarbdb.MolecularFramework.sugar.Sugar;
 
 import debug.MyTimer;
+import debug.Print;
 import main.CMain;
 import spectrum.Peak;
 import util.ConvertSugar;
@@ -139,7 +140,7 @@ public class BatchWork {
                 // Initial sumInts list to all 0, this is only used for none-bayesian model
                 initScoreModel(candiStrucList.size());
             }
-            // If no candidate is found, it is an error
+            // If no candidate is found, there is an error.
             if (candiStrucList == null) {
                 System.out.println("No candidate structure of which mass"
                         + " is between " + spectrum.getPreMzList().get(0) 
@@ -261,6 +262,8 @@ public class BatchWork {
             
             for (String iterFile : spectrumPaths) {
                 SPComponent tmp = new SPComponent(new File(iterFile));
+//                Print.pl("spectrum: " + tmp.getSpFileID()
+//                        + "\tpeaks:"  + tmp.getPeakArray().length);
                 spList.add(tmp);
             }
 
@@ -334,6 +337,11 @@ public class BatchWork {
             noError = false;
             System.out.println("spectrum is error(len < 2 or null):" 
                     + spectrum.getSpFileID());
+            if(peaks == null){
+                Print.pl("\tpeaks array == null");
+            } else {
+                Print.pl("\tpeaks num in this spectrum: "+ peaks.length);
+            }
         } else {
             noError = true;
             System.out.println("spectrum is ok:" + spectrum.getSpFileID() 

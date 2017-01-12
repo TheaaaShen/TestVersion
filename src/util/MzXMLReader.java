@@ -15,6 +15,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
+import debug.Print;
 import spectrum.Peak;
 
 //TODO Whether this class can be replaced by any existing project?
@@ -121,7 +122,7 @@ public class MzXMLReader {
 
     public Peak[] decode_str(String peak_str, int peak_count) {
         if (peak_str == null)
-            return null;
+            return new Peak[0];
 
         try {
             byte[] b = Base64.decode(peak_str);
@@ -142,7 +143,7 @@ public class MzXMLReader {
         } catch (Exception e) {
             System.out.print("In class MzXMLReader: decode_str: ");
             System.out.println(e.getMessage());
-            return null;
+            return new Peak[0];
         }
     }
     

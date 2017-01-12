@@ -49,8 +49,12 @@ public class FragMz {
             return null;
         }
         MyTimer.showTime("\tafter theory specrum");
-        // remove small peaks in the experimental spectrum ??
-        expSPArray = spectrumFilter(expSPArray,filterRatio);
+        // remove small peaks in the experimental spectrum 
+//        for(Peak peak: expSPArray){
+//            Print.pl(peak.getMz()+"\tInts: "+ peak.getIntensity() + 
+//                    "\tRInts: "+peak.getRelativeIntens());
+//        }
+        expSPArray = spectrumFilter(expSPArray, filterRatio);
         MyTimer.showTime("\tbefore scoring");
         // Calculate the scores of candidate structures
         ArrayList<CompareInfo> scoreInfoList = ScoreModel.
@@ -367,7 +371,7 @@ public class FragMz {
         expIonArray=DataFilter.getNormalizedPeakArray(expIonArray, 1000);
         /*
          * intens filt
-         * @filtIntensRatio:0.95 ?? 现在设的是这个吗？
+         * @filtIntensRatio: in CMain class
          */
         
         double filtIntens=filterRatio*1000;
