@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import debug.Print;
+import main.Settings;
 import spectrum.Peak;
 import util.*;
 public class ScoreModel {
@@ -331,7 +332,7 @@ public class ScoreModel {
                 ArrayList<PeakInfo> matchedPeaks=tmpInfo.getMatchPeakList();
                 double probScore = 0;
                 for(PeakInfo peak: matchedPeaks){
-                    double s = Math.log(peak.getAbsoluteIntens());
+                    double s = Math.log(peak.getRelativeIntens());
                     probScore += s;
                 }
 //                Print.pl("candiSpMatchList.size():" + candiSpMatchList.size()+ "\tj:"+j);
@@ -371,7 +372,7 @@ public class ScoreModel {
     public static ArrayList<CompareInfo> scoreSumNPlusLogInts(
             ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,
         double[] preScoreArray,double WIN) {
-        double alpha = 1;
+        double alpha = Settings.scoreSumNPlusLogInts_alpha;
         // make all preScore to uniform
         for(int i = 0; i< preScoreArray.length; i++){
             preScoreArray[i] = 1.0 / preScoreArray.length;
@@ -388,7 +389,9 @@ public class ScoreModel {
                 // debug code: to get the matched peaks
                 Print.pl("Matched peaks of candidate " + i + " :");
                 for(PeakInfo peak: matchedPeakList){
-                    Print.pl("\t" + peak.getPeakMz() + "\tInts: " + peak.getPeakMz());
+                    Print.pl("\t" + peak.getPeakMz() + 
+                            "\tAbsInts: " + peak.getAbsoluteIntens() + 
+                            "\tRInts:" + peak.getRelativeIntens());
                 }
                 CompareInfo matchResult = new CompareInfo();
                 matchResult.setCandiID(String.valueOf(i));
@@ -409,7 +412,7 @@ public class ScoreModel {
                 ArrayList<PeakInfo> matchedPeaks=tmpInfo.getMatchPeakList();
                 double probScore = 0;
                 for(PeakInfo peak: matchedPeaks){
-                    double s = alpha + Math.log(peak.getPeakIntens());
+                    double s = alpha + Math.log(peak.getRelativeIntens());
                     probScore += s;
                 }
     //            Print.pl("candiSpMatchList.size():" + candiSpMatchList.size()+ "\tj:"+j);

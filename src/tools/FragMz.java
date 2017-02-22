@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import debug.MyTimer;
 import debug.Print;
 import main.CMain;
+import main.Settings;
 import spectrum.Peak;
 import util.DataFilter;
 import util.FragNode;
@@ -66,7 +67,7 @@ public class FragMz {
         int peakLevel = spectrum.getSpLevel();
         
         ArrayList<PeakEntropyInfo> peakEntropyList = null;// if not compute DP
-        if(CMain.compute_DP){
+        if(Settings.compute_DP){
             peakEntropyList = coutNextStagePeak(expSPArray, scoreInfoList,
                                                 1, peakLevel);
         }

@@ -13,7 +13,7 @@ import org.eurocarbdb.MolecularFramework.sugar.Sugar;
 
 import debug.MyTimer;
 import debug.Print;
-import main.CMain;
+import main.Settings;
 import spectrum.Peak;
 import util.ConvertSugar;
 import util.FragNode;
@@ -25,12 +25,6 @@ import util.SugarFragment;
 
 
 public class BatchWork {
-    
-    /** 
-     * <p>This constant is the searching window of Mass of parent iron.
-     * This is used when searching candidate structures.
-     */
-    static final double SEARCHING_WINDOW = 2; // ËÑË÷ÖÊÁ¿µÄÈÝ²î
 
     /** The structure library. */
     static StructureLib strucLib;
@@ -78,7 +72,7 @@ public class BatchWork {
     ArrayList<PeakEntropyInfo> candiPeakEntropyList = 
             new ArrayList<PeakEntropyInfo>();
     
-    
+    ArrayList<SPComponent> previousSpectra;
 
     /**
      * <p>Load structure library file.
@@ -92,14 +86,14 @@ public class BatchWork {
         
         return true;
     }
-    // TODO: unfinished doc
+    
     /**
      * <p>This function .
      *
      * @param spectrumFilePaths an array containing file paths of spectra 
      *        pending to be loaded
-     * @param cutTime the cut time ????
-     * @param WIN the win ????
+     * @param cutTime the cut time 
+     * @param WIN the win 
      * @param filterRatio the ratio parameter of filter
      *        peaks of which intensity is blow () will be ignored
      * @param outFolder the out folder
@@ -118,7 +112,7 @@ public class BatchWork {
         double[] preProbArray;
         // This array stores computed spectra. These spectra are used to get prior
         // probabilities.
-        ArrayList<SPComponent> previousSpectra = new ArrayList<SPComponent>();
+        previousSpectra = new ArrayList<SPComponent>();
         for(int sp_i = 0;sp_i < spList.size(); sp_i++){
         //for(SPComponent spectrum : spList) {
             SPComponent spectrum = spList.get(sp_i);
@@ -144,7 +138,7 @@ public class BatchWork {
             if (candiStrucList == null) {
                 System.out.println("No candidate structure of which mass"
                         + " is between " + spectrum.getPreMzList().get(0) 
-                        + "+-" + SEARCHING_WINDOW);
+                        + "+-" + Settings.SEARCHING_WINDOW);
                 continue; // ignore this spectrum
             } else {
                 System.out.println("Number of candidates: " + candiStrucList.size());
@@ -242,7 +236,7 @@ public class BatchWork {
             spComponentHash.put(spectrum.getSpFileID(), spectrum);
             previousSpectra.add(spectrum);
             this.writeOut(spectrum, outFolder);
-            if(CMain.write_final_result){
+            if(Settings.write_final_result){
                 writeOutFinal(spectrum, outFolder,"!final_result");
             }
             
@@ -270,7 +264,7 @@ public class BatchWork {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(CMain.sort_spectra){
+        if(Settings.sort_spectra){
             spList.sort(new SPComponentComparator());
         }
     }
@@ -291,8 +285,8 @@ public class BatchWork {
         ArrayList<FragNode> reList = new ArrayList<FragNode>();
         try {
             for (Double iterIndex : indexList) {
-                if (iterIndex.doubleValue() < searchMass + SEARCHING_WINDOW
-                    && iterIndex.doubleValue() > searchMass - SEARCHING_WINDOW) {
+                if (iterIndex.doubleValue() < searchMass + Settings.SEARCHING_WINDOW
+                    && iterIndex.doubleValue() > searchMass - Settings.SEARCHING_WINDOW) {
                     ArrayList<String> strucStrList = indexStrucHash
                             .get(iterIndex);
                     int strucID = 1;
@@ -514,6 +508,13 @@ public class BatchWork {
             reArray[i++] = prescoreArray[iterIndex];
         }
         return reArray;
+    }
+    
+    public double[] getFinalScoreArray(){
+        Print.pl("size:"+previousSpectra.size());
+        SPComponent finalSP = previousSpectra.get(previousSpectra.size() - 1);
+        double[] ret =  probArrayHash.get(finalSP.getSpFileID());
+        return ret;
     }
 
     // It seems that this function is never used
