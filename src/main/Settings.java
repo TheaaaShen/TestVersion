@@ -43,7 +43,7 @@ public class Settings {
     public static boolean redirect_program_output = false;
     
     /** The output file of the program's redirected standard output. **/ 
-    public static final String redirect_output_file = 
+    public static String redirect_output_file = 
                                 HOME_DIR + "/result/output.txt";
     
     /**

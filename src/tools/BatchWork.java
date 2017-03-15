@@ -131,7 +131,7 @@ public class BatchWork {
                 candiStrucList = this.searchLib(spectrum.getPreMzList().get(0));
                 MyTimer.showTime("\tafter searching library");
                 this.areCandidatesLoaded = true;
-                // Initial sumInts list to all 0, this is only used for none-bayesian model
+                // Initial sumInts list to all 0(or 1), this is only used for none-bayesian model
                 initScoreModel(candiStrucList.size());
             }
             // If no candidate is found, there is an error.
@@ -143,9 +143,6 @@ public class BatchWork {
             } else {
                 System.out.println("Number of candidates: " + candiStrucList.size());
             }
-            
-            // Initial sumInts list to all 0, this is only used for none-bayes model
-            
             
             // detect one cut or two cut, then search FragNode ??
             if(!checkSpectrum(spectrum)){
@@ -240,7 +237,7 @@ public class BatchWork {
                 writeOutFinal(spectrum, outFolder,"!final_result");
             }
             
-            System.gc();
+            //System.gc();
         } // End of for(SPComponent spectrum : spList)
     }
 
@@ -266,6 +263,9 @@ public class BatchWork {
         }
         if(Settings.sort_spectra){
             spList.sort(new SPComponentComparator());
+//            for(SPComponent sp: spList){
+//                Print.pl(sp.getSpFileID());
+//            }
         }
     }
 
@@ -354,10 +354,7 @@ public class BatchWork {
     }
     
     public void initScoreModel(int candiNum){
-        ScoreModel.sumInts = new double[candiNum];
-        for(int i = 0; i < candiNum; i++){
-            ScoreModel.sumInts[i] = 0.0;
-        }
+        ScoreModel.initScoreModel(candiNum);
     }
     public void writeOutFinal(SPComponent iterSP,String outFolder, String fileName) {
         try {

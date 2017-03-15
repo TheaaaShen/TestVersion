@@ -1,5 +1,9 @@
 package debug;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +22,13 @@ public class Top5_Main {
     /** The correct number in result file corresponding to glycan array. */
     static int[] correctNo = {2,2,0,9,8,0,0,1,0,0,1,2,0,3,0,0};
     
+//    static String[] glycan = {"Man5"};
+//    static int[] correctNo = {0};
+//    
     /** The correct candidate index of glycan. */
     static Map<String, Integer> correctCandidateIndex;
+    
+    static ArrayList<String> actual_glycan_list;
     
     
     /**
@@ -32,9 +41,25 @@ public class Top5_Main {
         Settings.redirect_program_output = false;
         Settings.sort_spectra = true;
         Settings.compute_DP = false;
+        Settings.write_final_result = true;
+        Settings.redirect_program_output = false;
+        Settings.redirect_output_file = Settings.HOME_DIR 
+                + "/result/Top5_output.txt";
+        
         correctCandidateIndex = new HashMap<String, Integer>();
         for(int i = 0;i < glycan.length;i++){
             correctCandidateIndex.put(glycan[i], Integer.valueOf(correctNo[i]));
+        }
+        actual_glycan_list = new ArrayList<String>();
+        
+        if(Settings.redirect_program_output){
+            try {
+                PrintStream ps = new PrintStream(new FileOutputStream(Settings.redirect_output_file));
+                System.setOut(ps); 
+            } catch (FileNotFoundException e) {
+                Print.pl("Redirecting output to file enters an error.");
+                e.printStackTrace();
+            }  
         }
     }
     
@@ -59,7 +84,8 @@ public class Top5_Main {
         double opt_jf = 0;
         ArrayList<Double> opt_scores = null;
         
-        for(double alpha = 0; alpha < 5.0; alpha += 0.1){
+//        for(double alpha = 1; alpha < 10.0; alpha += 1){
+            Settings.scoreSumNPlusLogInts_alpha = 0;
             resultOfAllCandi.clear();
             for(String dirName: dirNames){
                 Print.pl("!dealing with folder: "+ dirName);
@@ -70,6 +96,8 @@ public class Top5_Main {
                 if(!correctCandidateIndex.containsKey(dirName)){
                     continue;
                 } 
+                actual_glycan_list.add(dirName);
+                
                 int rightIndex = correctCandidateIndex.get(dirName).intValue();
                 Print.pl("right Index = " + rightIndex);
                 
@@ -94,32 +122,37 @@ public class Top5_Main {
             }
             printTestResult(resultOfAllCandi);
             double jf = computeJudgeFunciton(resultOfAllCandi);
-            Print.pl("alpha: "+alpha+"\tjudge function: "+jf);
+//            Print.pl("alpha: "+alpha+"\tjudge function: "+jf);
             if(jf > opt_jf){
                 opt_jf = jf;
-                opt_alpha = alpha;
+//                opt_alpha = alpha;
                 opt_scores = cloneList(resultOfAllCandi);
             }
-        }
+//        }
         Print.pl("opt_jf = "+opt_jf+"\topt_alpha = "+opt_alpha);
         printTestResult(opt_scores);
     }
     
     public static void printTestResult(ArrayList<Double> resultOfAllCandi){
+        Print.p("Dir order: {");
+        for(String s:actual_glycan_list){
+            Print.p(s+",");
+        }
+        Print.pl("}");
         Print.p("resultOfAllCandidate: {");
+        //DecimalFormat formatter = new DecimalFormat("#0.000");
         for(Double d: resultOfAllCandi){
+            //Print.p(formatter.format(d)+",");
             Print.p(d.doubleValue()+",");
         }
         Print.pl("}");
     }
     
     public static double computeJudgeFunciton(ArrayList<Double> resultOfAllCandi){
-        Print.pl("before computeJudgeFunciton");
         double ret = 1;
         for(Double d: resultOfAllCandi){
             ret *= d.doubleValue();
         }
-        Print.pl("after computeJudgeFunciton");
         return ret;
     }
     
