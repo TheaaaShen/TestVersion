@@ -206,7 +206,7 @@ public class FragMzDeprecated {
         }
         expSPArray=spectrumFilter(expSPArray,filterRatio);
         
-        ArrayList<CompareInfo> scoreInfoList=ScoreModel.scoreA(candiTheorySPList, expSPArray, preProbArray, WIN);
+        ArrayList<CompareInfo> scoreInfoList=ScoreModel.scoreGIPS(candiTheorySPList, expSPArray, preProbArray, WIN);
         int peakLevel=iterSP.getSpLevel();
         ArrayList<PeakEntropyInfo> peakEntropyList=coutNextStagePeak(expSPArray, scoreInfoList,1,peakLevel);
 //        ArrayList<PeakEntropyInfo> peakEntropyList=null;

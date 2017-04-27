@@ -17,10 +17,12 @@ public class Top5_Main {
     
     /** The glycans to be tested. */
     static String[] glycan = {"2-FL","3-FL","A2","L735","L736","Man5","Man6","Man7d1",
-            "Man8_old","Man9_old","NA2","NA3","NA4","NGA2","NGA3","NGA4"};
+            "Man8_old","Man9_old","NA2","NA3","NA4","NGA2","NGA3","NGA4",  // Standards
+            "1579", "1783", "1988", "2192", "2396"};  // RnaseB
     
     /** The correct number in result file corresponding to glycan array. */
-    static int[] correctNo = {2,2,0,9,8,0,0,1,0,0,1,2,0,3,0,0};
+    static int[] correctNo = {2,2,0,9,8,0,0,1,0,0,1,2,0,3,0,0,
+            0, 0, 0, 0, 0};
     
 //    static String[] glycan = {"Man5"};
 //    static int[] correctNo = {0};

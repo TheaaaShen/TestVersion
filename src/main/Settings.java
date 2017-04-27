@@ -81,4 +81,5 @@ public class Settings {
     
     // Parameters in scoring function
     public static double scoreSumNPlusLogInts_alpha = 5;
+    public static double scoreGIPS_P = 0.75;
 }

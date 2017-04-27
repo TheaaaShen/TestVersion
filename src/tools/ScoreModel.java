@@ -26,7 +26,7 @@ public class ScoreModel {
         return 
                 //scoreSumNPlusLogInts(
                 scoreGeneral(
-                //scoreA(
+                //scoreGIPS(
                 candiSpList, expSpData, preScoreArray, WIN);
     }
     
@@ -213,9 +213,10 @@ public class ScoreModel {
      * probScore=Math.pow(P, matchNum)*Math.pow(1-P, unionMatchedNum-matchNum);
      * probScore=probScore/sumProbScore;
      */
-    public static ArrayList<CompareInfo> scoreA(
+    public static ArrayList<CompareInfo> scoreGIPS(
             ArrayList<ArrayList<FragNode>> candiSpList,Peak[] expSpData,
             double[] preScoreArray,double WIN) {
+        double P = Settings.scoreGIPS_P;
         for(int i = 0;i < candiSpList.size(); i++){
             ArrayList<FragNode> spectrum = candiSpList.get(i);
             // This part servers to print the
@@ -225,7 +226,6 @@ public class ScoreModel {
                 Print.pl("\t" + f.getSubtreeMass());
             }
         }
-        double P=0.75;
         ArrayList<CompareInfo> candiSpMatchList=new ArrayList<CompareInfo>();
         for(int i=0;i < candiSpList.size();i++) {
             ArrayList<FragNode> theorySpPeakList = candiSpList.get(i);
@@ -510,7 +510,7 @@ public class ScoreModel {
                 double probScore = 1;
                 for(PeakInfo peak: matchedPeaks){
                     double x = peak.getRelativeIntens();
-                    double s = Math.log10((x - 1) / 99.0 * (10000 - 10) + 10) + 1;
+                    double s = ((x - 1) / 99.0 * 9 + 1);
                             //Math.log10(10 * peak.getRelativeIntens());
                     //Print.pl("debug: product for each matchedPeak: "+s);
                     probScore *= s;
