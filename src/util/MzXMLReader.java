@@ -41,7 +41,7 @@ public class MzXMLReader {
         try{
             File pepXML_file = new File(pep_xml);
             charBuffer = new StringBuilder(1 << 20);
-            peak_str=new String();
+            peak_str = new String();
             SAXParserFactory sax_fac = SAXParserFactory.newInstance();
             SAXParser sax_parser = sax_fac.newSAXParser();
             sax_parser.parse(pepXML_file, hander);
@@ -96,7 +96,7 @@ public class MzXMLReader {
                 charBuffer.setLength(0);
             }
             if (qName.equals("peaks")) {
-
+                peak_str = "";
                 charBuffer.setLength(0);
             }
             preTag = qName;
@@ -114,7 +114,7 @@ public class MzXMLReader {
 
         public void characters(char[] ch, int start, int length)
                 throws SAXException {
-            if (preTag.equals("peaks") && Integer.parseInt(peak_num) > 1) {
+            if (preTag.equals("peaks") && Integer.parseInt(peak_num) >= 1) {
                 peak_str = peak_str + new String(ch, start, length);
             }
         }
@@ -154,10 +154,13 @@ public class MzXMLReader {
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {
-        String mzXML="G:/Oligo/MZXML/mzxml/3_serum-ms2-1783.44-1-0001.mzXML";
+        String mzXML="D:/Data/Glycan_Data/GIPS_experiment_dataset_TXT/2017_05_12_resolusion_analysis/mzxml/250/hybrid_1824/nga2f-hybrid-4-4-ms1-ms2-1824-ms3-1565-20001.mzXML";
         MzXMLReader test = new MzXMLReader();
         test.init(mzXML);
-        test.get_peak_list();
-
+        Peak[] pl = test.get_peak_list();
+        for(Peak p: pl){
+            Print.pl(p.getMz() + "\t" + p.getIntensity());
+        }
+        
     }
 }
