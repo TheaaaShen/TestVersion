@@ -51,7 +51,8 @@ public class ConvertSugar {
             MyTimer.showTime("\t before test_tree.recurs");
             test_tree.recurs(tree_root, 1, big_node);
             MyTimer.showTime("\t after test_tree.recurs");
-            // FragmentTree.outPrint2(big_node);
+//            FragmentTree.outPrint2(big_node);
+//            FragmentTree2.outPrint(big_node);
         } catch (Exception e) {
             e.printStackTrace();
         }
