@@ -25,8 +25,8 @@ public class ScoreModel {
             double[] preScoreArray,double WIN) {
         return 
                 //scoreSumNPlusLogInts(
-                scoreGeneral(
-                //scoreGIPS(
+                //scoreGeneral(
+                scoreGIPS(
                 candiSpList, expSpData, preScoreArray, WIN);
     }
     

@@ -1,7 +1,15 @@
 package tools;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 
+import debug.Print;
 import spectrum.Peak;
 import util.PeakEntropy;
 
@@ -98,15 +106,39 @@ public class PeakEntropyInfo {
         }
         return reList;
     }
-
+    
     private double countExpectEntropy(ArrayList<double[]> probArrayList) {
         double reEntropy = 0;
+//        Print.pl("compute the whole Entropy");
+//        Print.pl("probArrayList size:" + probArrayList.size());
+//        entropyList_debug = new ArrayList<Double>();
         for(double[] iterArray : probArrayList) {
-            reEntropy = reEntropy + Entropy.countEntropy(iterArray);
+            double e = Entropy.countEntropy(iterArray);
+            reEntropy = reEntropy + e;
+//            entropyList_debug.add(Double.valueOf(e));
         }
 
         reEntropy = reEntropy / probArrayList.size();
         return reEntropy;
+    }
+    
+    public static ArrayList<Double> entropyList_debug = null;
+    public static void writeAllEntropyToFile(String entropyFilePath){
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+            new FileOutputStream(entropyFilePath), "utf-8"))) {
+            for(Double e: entropyList_debug) {
+                writer.write(e.doubleValue() + "\n");
+            }
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
     }
 
 }

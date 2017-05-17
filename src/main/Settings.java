@@ -65,7 +65,7 @@ public class Settings {
      * whether compute all sub folders or just a few spectra defined
      * in SPECTRA_FILES_LOADED
      */
-    public static boolean batch_version = false;
+    public static boolean batch_version = true;
     
     // Parameters in the process of computation:
     
@@ -74,7 +74,7 @@ public class Settings {
      * Every spectrum should exist peaks of at least this number,
      * otherwise, this spectrum is viewed as a noise spectrum.
      */
-    public static int min_num_of_peaks = 1;
+    public static int min_num_of_peaks = 2; 
     
     /** 
      * <p>This constant is the searching window of Mass of parent iron.
@@ -87,7 +87,7 @@ public class Settings {
     public static double filterRatio = 0.01; 
     
     /** Whether sort all input spectra. **/
-    public static boolean sort_spectra = false;
+    public static boolean sort_spectra = true;
     
     /** Whether compute the distinguishing power. **/
     public static boolean compute_DP = true;

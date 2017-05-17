@@ -207,7 +207,7 @@ public class FetchFeature6 {
     }
 
     /*
-     * input: a experiment peak, candidate structure, pre_probability, structure
+     * input: a experiment peak, candidate structures, pre_probability, structure
      * cut time output: all possible spectrum correspond candidate structure
      * probability score
      */

@@ -351,6 +351,9 @@ public class BatchWork {
             if(candiPeakEntropyList.get(i)!=null){
                 candiPeakEntropyList.get(i).updateEntroy(preProbArray);
             }
+//            if(i==0){
+//                PeakEntropyInfo.writeAllEntropyToFile(Settings.OUT_FOLDER+"/entropylist_667.txt");
+//            }
         }
     }
     
