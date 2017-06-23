@@ -38,7 +38,7 @@ public class Peak {
     double absoluteIntens = 0;
     
     /** The mz offset. ?? */
-    double mzOffset=10;
+    //double mzOffset=10;
     
     /**
      * Instantiates a new peak.
@@ -124,17 +124,17 @@ public class Peak {
      *
      * @param offSet the new mz offset
      */
-    public void setMzOffset(double offSet){
-        this.mzOffset=offSet;
-    }
+   // public void setMzOffset(double offSet){
+        //this.mzOffset=offSet;
+    //}
     
     /**
      * Gets the mz offset.
      *
      * @return the mz offset
      */
-    public double getMzOffset(){
-        return this.mzOffset;
-    }
+    //public double getMzOffset(){
+      //  return this.mzOffset;
+    //}
 
 }

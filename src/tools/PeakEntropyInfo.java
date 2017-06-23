@@ -18,7 +18,7 @@ public class PeakEntropyInfo {
     /** The peak corresponding to this class. It contains m/z and intensity.*/
     Peak peak;
     int msLevel;
-    ArrayList<Integer> candiIDList; // why this is needed ?
+    ArrayList<Integer> candiIDList; // why this is needed ? (for output)
     
     /**
      * <p>contains P(S_j|G_i)

@@ -26,7 +26,7 @@ public class SPComponent {
     int spLevel;
     
     /** The cut tree path. ??*/
-    ArrayList<Integer> cutTreePath;
+    //ArrayList<Integer> cutTreePath;
     
     /** The array containing all peaks of this spectrum. */
     Peak[] peakArray;

@@ -14,14 +14,14 @@ public class ScoreProbInfo {
     public double probScore;
     public double smoothScore;
     public ArrayList<Peak> mzList;
-    public Hashtable<Peak,ArrayList<FragNode>> mzHash;
+   // public Hashtable<Peak,ArrayList<FragNode>> mzHash;
     public int ionNum=0;
     public int matchedNum=0;
     public ScoreProbInfo(double probScore,ArrayList<Peak> mzList,Hashtable<Peak,ArrayList<FragNode>> mzHash)
     {
         this.probScore=probScore;
         this.mzList=mzList;
-        this.mzHash=mzHash;
+        //this.mzHash=mzHash;
     }
     
     public void setSmoothScore(double smoothScore)
@@ -58,9 +58,9 @@ public class ScoreProbInfo {
     {
         return this.mzList;
     }
-    public Hashtable<Peak,ArrayList<FragNode>> getPeakHash()
-    {
-        return this.mzHash;
-    }
+    //public Hashtable<Peak,ArrayList<FragNode>> getPeakHash()
+    //{
+      //  return this.mzHash;
+    //}
 
 }

@@ -25,7 +25,7 @@ public class MzXmlConverter {
 
     private String peak_str = "";
 
-    private String spectrum_name;
+    //private String pectrum_name;
 
     private String preTag;
     

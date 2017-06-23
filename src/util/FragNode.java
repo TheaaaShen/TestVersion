@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public class FragNode implements Cloneable, Serializable {
     final static long serialVersionUID = 111113;
     SugarNode node;
-    int frag_time;
+    //int frag_time;
     double subtree_mass;
     IonType ionType;
     String ionTypeNote;
     String strucID;
     int cutPos;
     public ArrayList<FragNode> sub_node_list;
-    public ArrayList<Character> cutTypeList;
+    //public ArrayList<Character> cutTypeList;
 
     
     public FragNode clone() {
@@ -33,7 +33,7 @@ public class FragNode implements Cloneable, Serializable {
     public static FragNode cloneObject(FragNode obj) {
         FragNode fg = new FragNode();
         fg.node = obj.node.clone();
-        fg.frag_time = obj.frag_time;
+        //fg.frag_time = obj.frag_time;
         fg.subtree_mass = obj.subtree_mass;
         fg.ionType = obj.ionType;
         fg.ionTypeNote = obj.ionTypeNote;
@@ -45,10 +45,10 @@ public class FragNode implements Cloneable, Serializable {
             fg.sub_node_list.add(f);
         }
         
-        fg.cutTypeList = new ArrayList<Character>();
-        for(Character c: obj.cutTypeList){
-            fg.cutTypeList.add(c);
-        }
+        //fg.cutTypeList = new ArrayList<Character>();
+        //for(Character c: obj.cutTypeList){
+          //  fg.cutTypeList.add(c);
+        //}
         return fg;
         
         /*try {
@@ -101,10 +101,10 @@ public class FragNode implements Cloneable, Serializable {
     }
 
     public FragNode() {
-        frag_time = 0;
+        //frag_time = 0;
         subtree_mass = 0;
         sub_node_list = new ArrayList<FragNode>();
-        cutTypeList = new ArrayList<Character>();
+       // cutTypeList = new ArrayList<Character>();
         this.ionTypeNote = new String();
     }
 

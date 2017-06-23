@@ -37,7 +37,7 @@ public class CMain {
         }
     }
     public static void mainSingle(String[] args){
-        
+         
         int cutTime = Settings.maxNumberOfCleavage; // 碎裂次数
         double WIN = Settings.peak_matching_duration; // 搜索窗口，匹配peak与peak的容差
         

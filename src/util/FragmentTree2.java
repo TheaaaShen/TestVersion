@@ -15,6 +15,9 @@ public class FragmentTree2 {
     public void fragment(SugarNode root_node, int cut_time,FragNode big_node)
     {
 //        this.test2(root_node);
+        FragmentTree Frg= new FragmentTree();
+        //Frg.outPrint2(big_node);
+        
         if(root_node.getChildList().size()>0&& big_node.getIonTypeNote().length()<5)
 //        if(root_node.getChildList().size()>0)
         {
@@ -90,16 +93,26 @@ public class FragmentTree2 {
                 big_node.getSubTreeNodeList().add(frag_node_c);
                 big_node.getSubTreeNodeList().add(frag_node_z);
                 
-                
+                //System.out.println("Fragment\n");
                 fragment(child_node,cut_time,big_node);
+                //System.out.println("Finish step 1\n");
                 fragment(tmp_node,1,frag_node_y);
+                //System.out.println("Finish step 2\n");
                 fragment(child_node,1,frag_node_b);
-                
+                //System.out.println("Finish step 3\n");
+                    
                 fragment(tmp_node2,1,frag_node_z);
+                //System.out.println("Finish step 4\n");
                 fragment(child_node2,1,frag_node_c);
-                
+                //System.out.println("Finish step 5\n");
+                //System.out.println("Finish one node (???)\n");
             }
         }
+        else {
+            //System.out.println("Not recurse\n");
+        }
+        Frg.outPrint2(big_node);
+        System.out.println("Fragment Finish\n");
     }
     
     public String getStrucIDStr(SugarNode rootNode)

@@ -18,7 +18,7 @@ public class PeakEntropy {
     public double entropy;
     
     /** The structure id list. ?? */
-    public ArrayList<Integer> strucIdList; // why this is needed here ??
+    //public ArrayList<Integer> strucIdList; // why this is needed here ??
 
     /**
      * Instantiates a new peak entropy.
@@ -31,7 +31,7 @@ public class PeakEntropy {
     public PeakEntropy(double mz, double intensity, ArrayList<Integer> strucIdList, double entropy) {
         this.mz = mz;
         this.intensity = intensity;
-        this.strucIdList = strucIdList;
+        //this.strucIdList = strucIdList;
         this.entropy = entropy;
     }
 }

@@ -11,7 +11,7 @@ public class SugarNode implements Cloneable,Serializable{
     public double node_mass;
     public int node_level;
     public String node_type;
-    public SugarNode parent_node;
+   // public SugarNode parent_node;
     public ArrayList<SugarNode> child_list;
     public double tree_mass;
     public int bond_cut_time=0;
@@ -62,7 +62,7 @@ public class SugarNode implements Cloneable,Serializable{
         o.node_mass = this.node_mass;
         o.node_level = this.node_level;
         o.node_type = this.node_type;
-        o.parent_node = this.parent_node;
+       // o.parent_node = this.parent_node;
         o.tree_mass = this.tree_mass;
         o.bond_cut_time = this.bond_cut_time;
         o.node_ID = this.node_ID;
@@ -101,7 +101,7 @@ public class SugarNode implements Cloneable,Serializable{
         this.node_string=new String();
         this.node_mass=0;
         this.node_level=-1;
-        this.parent_node =null;
+        //this.parent_node =null;
         this.child_list=null;
     }
     public SugarNode(String node_string,double node_mass,int node_level,SugarNode parent_node,ArrayList<SugarNode> child_list)
@@ -109,7 +109,7 @@ public class SugarNode implements Cloneable,Serializable{
         this.node_string =node_string;
         this.node_mass=node_mass;
         this.node_level=node_level;
-        this.parent_node=parent_node;
+       // this.parent_node=parent_node;
         this.child_list=child_list;
         
     }
@@ -156,14 +156,14 @@ public class SugarNode implements Cloneable,Serializable{
     {
         return this.node_level;
     }
-    public void setParentNode(SugarNode parent_node)
-    {
-        this.parent_node=parent_node;
-    }
-    public SugarNode getParentNode()
-    {
-        return this.parent_node;
-    }
+    //public void setParentNode(SugarNode parent_node)
+    //{
+       // this.parent_node=parent_node;
+    //}
+    //public SugarNode getParentNode()
+    //{
+       // return this.parent_node;
+    //}
     public void setChildList(ArrayList<SugarNode> child_list)
     {
         this.child_list=child_list;

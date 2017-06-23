@@ -6,7 +6,7 @@ import java.util.Hashtable;
 /*
  * @peakMz: a peak's mz
  * @candiStruList: the peak can generated child peak node (noted by FragNode)
- * @featureNodeList: the peak conresponded candidate Structures can generated child distinguished child peak  Disjunction of @candiStruList
+ * @featureNodeList: the peak corresponded candidate Structures can generated child distinguished child peak  Disjunction of @candiStruList
  * @candiSpecList: use the @featureNodeList information and the @candiStruList to Create all possible Therory Sp of @peakMz
  * @probList: use @candiStruList and @candiSpecList to count the simlularity Prob Score
  * @subTreeList: contains the possible sub SpectrumTree;
@@ -16,12 +16,12 @@ public class SpectrumTree {
     ArrayList<FragNode> candiStruList;
     ArrayList<FeatureNode> featureNodeList;
     ArrayList<SpectrumNode> candiSpecList;
-    ArrayList<SpectrumTree> subTreeList;
+    //ArrayList<SpectrumTree> subTreeList;
     ArrayList<double[]> probList;
     
     ArrayList<double[]> preProbList;
     ArrayList<double[]> baseProbList;
-    ArrayList<Integer> featureNumList;
+    //ArrayList<Integer> featureNumList;
     
     int commNum=0;
     int cutTime=1;
@@ -47,11 +47,11 @@ public class SpectrumTree {
         this.baseProbList=baseProbList;
         
     }
-    public void setSubTreeList(ArrayList<SpectrumTree> subTreeList)
-    {
-        this.subTreeList=subTreeList;
+   // public void setSubTreeList(ArrayList<SpectrumTree> subTreeList)
+    //{
+        //this.subTreeList=subTreeList;
         
-    }
+    //}
     public void coutBaseProbList()
     {
         

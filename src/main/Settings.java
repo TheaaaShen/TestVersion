@@ -22,7 +22,8 @@ public class Settings {
     
     /** The name of the library file storing glycan structures */
     public static String STRUCTURE_LIBRARY_FILE = CARB_LIB_DIR + 
-            "/lib_top5_new.txt";
+            "/lib.txt";
+            //"/lib_top5_new.txt";
             //"/filter_mass/5_11/5.11.txt";
     
     /** Output folder **/
@@ -81,7 +82,7 @@ public class Settings {
      * This is used when searching candidate structures.
      * ËÑË÷ÖÊÁ¿µÄÈÝ²î
      */
-    public static final double SEARCHING_WINDOW = 2;
+    public static final double SEARCHING_WINDOW = 1000;
     
     /** filtering all peaks of which the intensity is < maxInten * filterRatio **/
     public static double filterRatio = 0.01; 
